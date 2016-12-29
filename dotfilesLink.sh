@@ -1,5 +1,11 @@
 #!/bin/sh
 
+unlink ~/.bash_profile
+unlink ~/.gitconfig
+unlink ~/.gitignore_global
+unlink ~/.vimrc
+unlink ~/.emacs.d
+
 ln -sf ~/dotfiles/.bash_profile ~/.bash_profile
 
 ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
