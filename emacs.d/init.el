@@ -76,6 +76,8 @@
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
 (define-key company-active-map (kbd "C-h") nil)
 (define-key company-active-map (kbd "<tab>") 'company-complete)
+(define-key company-active-map (kbd "C-i") 'company-complete-selection)
+
 
 
 ;;===========================================
@@ -91,7 +93,7 @@
 (require 'helm-config)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x C-r") 'helm-recentf)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
+;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
 
 ;;===========================================
