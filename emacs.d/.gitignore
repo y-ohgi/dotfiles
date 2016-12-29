@@ -1,0 +1,20 @@
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+tramp
+.\#*
+
+# Org-mode
+.org-id-locations
+*_archive
+
+.DS_Store
+
+eshell
+elpa
+recentf
+auto-save-list
+.cask
+tramp
