@@ -8,4 +8,4 @@ git config --global core.excludesfile ~/.gitignore_global
 
 ln -sf ~/dotfiles/.vimrc ~/.vimrc
 
-ln -sf ~/dotfiles/.emacs.d ~/.emacs.d
+ln -sf ~/dotfiles/emacs.d ~/.emacs.d
