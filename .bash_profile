@@ -1,5 +1,5 @@
 #alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
-alias emacs="/usr/local/opt/emacs/Emacs.app/Contents/MacOS/Emacs -nw"
+#alias emacs="/usr/local/opt/emacs/Emacs.app/Contents/MacOS/Emacs -nw"
 export CLICOLOR=1
 
 #export PATH=$HOME/.nodebrew/current/bin:$PATH

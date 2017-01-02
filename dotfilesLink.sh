@@ -1,17 +1,18 @@
 #!/bin/sh
 
-unlink ~/.bash_profile
-unlink ~/.gitconfig
-unlink ~/.gitignore_global
-unlink ~/.vimrc
-unlink ~/.emacs.d
+files=(.bash_profile .gitignore .gitignore_global .vimrc .emacs.d)
 
-ln -sf ~/dotfiles/.bash_profile ~/.bash_profile
+for file in ${files[@]}; do
+    echo $file
+    
+    if test -e ~/$file; then
+	unlink ~/$file
+    fi
 
-ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
-ln -sf ~/dotfiles/.gitignore_global ~/.gitignore_global
+    ln -sf ~/dotfiles/$file ~/$file
+done
+
+source ~/.bash_profile
+
 git config --global core.excludesfile ~/.gitignore_global
 
-ln -sf ~/dotfiles/.vimrc ~/.vimrc
-
-ln -sf ~/dotfiles/emacs.d ~/.emacs.d
