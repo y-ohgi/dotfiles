@@ -40,4 +40,6 @@
 (depends-on "recentf-ext")
 (depends-on "sync-recentf")
 (depends-on "popwin")
+(depends-on "dockerfile-mode")
+(depends-on "php-mode")
 

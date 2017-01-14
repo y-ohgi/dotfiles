@@ -63,3 +63,6 @@ if [ -x "`which go`" ]; then
 fi
 
 
+alias fig='docker-compose'
+
+#alias aws="~/.pyenv/versions/3.5.2/bin/aws"
