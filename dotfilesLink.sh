@@ -1,6 +1,6 @@
 #!/bin/sh
 
-files=(.bash_profile .gitignore .gitignore_global .vimrc .emacs.d)
+files=(.bash_profile .gitignore .gitconfig .gitignore_global .vimrc .emacs.d)
 
 for file in ${files[@]}; do
     echo $file
