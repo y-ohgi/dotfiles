@@ -15,7 +15,7 @@
   	difff = diff --word-diff
 	co = checkout
 [core]
-	excludesfile = /Users/ohgi/.gitignore_global
+	excludesfile = /Users/owner/.gitignore_global
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 

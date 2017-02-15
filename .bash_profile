@@ -66,3 +66,6 @@ fi
 alias fig='docker-compose'
 
 #alias aws="~/.pyenv/versions/3.5.2/bin/aws"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"

@@ -106,11 +106,17 @@
 
 
 ;;===========================================
-;; popwin
+;; docker
 ;;===========================================
 (require 'dockerfile-mode)
 (autoload 'dockerfile-mode "dockerfile-mode" nil t)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+
+
+;;===========================================
+;; ruby-mode
+;;===========================================
+(setq ruby-insert-encoding-magic-comment nil)
 
 
 ;;===========================================
