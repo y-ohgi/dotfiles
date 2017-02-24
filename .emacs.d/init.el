@@ -112,6 +112,57 @@
 (autoload 'dockerfile-mode "dockerfile-mode" nil t)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 
+;;===========================================
+;; ruby-mode
+;;===========================================
+(require 'dockerfile-mode)
+(setq ruby-insert-encoding-magic-comment nil)
+(defadvice ruby-indent-line (after unindent-closing-paren activate)
+  (let ((column (current-column))
+        indent offset)
+    (save-excursion
+      (back-to-indentation)
+      (let ((state (syntax-ppss)))
+        (setq offset (- column (current-column)))
+        (when (and (eq (char-after) ?\))
+                   (not (zerop (car state))))
+          (goto-char (cadr state))
+          (setq indent (current-indentation)))))
+    (when indent
+      (indent-line-to indent)
+      (when (> offset 0) (forward-char offset)))))
+(setq ruby-deep-indent-paren-style nil)
+
+;;===========================================
+;; magit
+;;===========================================
+(require 'magit)
+(global-set-key (kbd "C-x g") 'magit-status)
+(custom-set-faces  
+ '(diff-added ((t (:foreground "#149914" :background nil :inherit nil))))
+ '(diff-removed ((t (:foreground "#991414" :background nil :inherit nil)))))
+;; (magit-file-header ((t (:foreground "violet"))))
+;; (magit-hunk-header ((t (:foreground "blue"))))
+;; (magit-header ((t (:foreground "cyan"))))
+;; (magit-tag-label ((t (:background "blue" :foreground "orange"))))
+;; (magit-diff-add ((t (:foreground "MediumSlateBlue"))))
+;; (magit-diff-del ((t (:foreground "maroon"))))
+;; (magit-item-highlight ((t (:background "#000012"))))
+
+
+;;===========================================
+;; undo-tree
+;;===========================================
+(require 'undo-tree)
+(global-undo-tree-mode t)
+(global-set-key (kbd "M-/") 'undo-tree-redo)
+
+
+;;===========================================
+;; tomorrow-night
+;;===========================================
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(load-theme 'tomorrow-night-bright t)
 
 ;;===========================================
 ;; template

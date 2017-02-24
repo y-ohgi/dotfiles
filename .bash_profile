@@ -55,14 +55,23 @@ export PYENV_ROOT="${HOME}/.pyenv"
 export PATH=${PYENV_ROOT}/bin:$PATH
 eval "$(pyenv init -)"
 
-# go
-if [ -x "`which go`" ]; then
-    export GOROOT=`go env GOROOT`
-    export GOPATH=$HOME/go
-    export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
-fi
+# # go
+# if [ -x "`which go`" ]; then
+#     export GOROOT=`go env GOROOT`
+#     export GOPATH=$HOME/go
+#     export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+# fi
 
 
 alias fig='docker-compose'
 
 #alias aws="~/.pyenv/versions/3.5.2/bin/aws"
+
+export NVM_DIR="$HOME/.nvm"
+. "/usr/local/opt/nvm/nvm.sh"
+
+#export GOPATH=$HOME/go
+
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+export GO15VENDOREXPERIMENT=1
