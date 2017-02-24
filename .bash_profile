@@ -75,3 +75,5 @@ export NVM_DIR="$HOME/.nvm"
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export GO15VENDOREXPERIMENT=1
+
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"

@@ -106,7 +106,7 @@
 
 
 ;;===========================================
-;; popwin
+;; docker
 ;;===========================================
 (require 'dockerfile-mode)
 (autoload 'dockerfile-mode "dockerfile-mode" nil t)
@@ -163,6 +163,12 @@
 ;;===========================================
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'tomorrow-night-bright t)
+
+;;===========================================
+;; ruby-mode
+;;===========================================
+(setq ruby-insert-encoding-magic-comment nil)
+
 
 ;;===========================================
 ;; template
