@@ -1,4 +1,4 @@
-if [ -f ~/.bashrc ]; then
+if [ -f ~/.bashrc -o -L ~/.bashrc ]; then
     . ~/.bashrc
 fi
 
