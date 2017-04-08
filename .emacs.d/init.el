@@ -26,6 +26,10 @@
 (setq initial-scratch-message "")
 (setq initial-major-mode 'markdown-mode)
 
+(setq ring-bell-function 'ignore)
+
+(setq vc-follow-symlinks t)
+
 
 ;;===========================================
 ;; global keybind

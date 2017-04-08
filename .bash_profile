@@ -4,8 +4,6 @@ fi
 
 alias f='open .'
 alias j='z'
-alias ll='ls -lat'
-alias grep="grep --color"
 
 alias fig='docker-compose'
 alias pbcopy="nkf -w | __CF_USER_TEXT_ENCODING=0x$(printf %x $(id -u)):0x08000100:14 pbcopy"
@@ -21,12 +19,6 @@ cdf() {
     fi
 }
 
-HISTSIZE=50000
-HISTTIMEFORMAT='%Y/%m/%d %H:%M:%S '
-
-export CLICOLOR=1
-export LESSCHARSET=utf-8
-export LC_CTYPE=ja_JP.UTF-8
 
 export PATH=$PATH:$HOME/.rbenv/bin
 eval "$(rbenv init -)"
