@@ -24,4 +24,4 @@ mv .bashrc /etc/bashrc
 source /etc/bashrc
 
 curl -O "${GIT_URL}.emacs.d/init.el.server"
-mv init.el.server /usr/share/emacs/site-lisp/init.el
+mv init.el.server /usr/share/emacs/site-lisp/site-start.d/init.el
