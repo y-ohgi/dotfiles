@@ -75,7 +75,7 @@
 (define-key company-active-map (kbd "M-p") nil)
 (define-key company-active-map (kbd "C-n") 'company-select-next)
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
-(define-key company-active-map (kbd "C-h") nil)
+(define-key company-active-map (kbd "C-h") 'delete-backward-char)
 (define-key company-active-map (kbd "<tab>") 'company-complete)
 (define-key company-active-map (kbd "C-i") 'company-complete-selection)
 
@@ -168,6 +168,13 @@
 ;; ruby-mode
 ;;===========================================
 (setq ruby-insert-encoding-magic-comment nil)
+
+
+;;===========================================
+;; terraform-mode
+;;===========================================
+;(add-to-list 'auto-mode-alist '("\\.tf$" . terraform-mode)
+
 
 
 ;;===========================================
