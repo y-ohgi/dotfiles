@@ -1,0 +1,1 @@
+/Users/ohgi/dotfiles/.emacs.d
