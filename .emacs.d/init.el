@@ -53,6 +53,7 @@
  '(global-anzu-mode t)
  '(global-company-mode t)
  '(helm-mode t)
+ '(js-indent-level 2)
  '(popwin-mode t)
  '(recentf-mode t))
 (custom-set-faces
@@ -62,6 +63,8 @@
  ;; If there is more than one, they won't work right.
  '(custom-group-tag ((t (:inherit variable-pitch :foreground "blue" :weight bold :height 1.2))))
  '(custom-variable-tag ((t (:foreground "color-31" :weight bold))))
+ '(diff-added ((t (:foreground "#149914" :background nil :inherit nil))))
+ '(diff-removed ((t (:foreground "#991414" :background nil :inherit nil))))
  '(font-lock-function-name-face ((t (:foreground "color-30")))))
 
 
@@ -142,9 +145,7 @@
 ;;===========================================
 (require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
-(custom-set-faces  
- '(diff-added ((t (:foreground "#149914" :background nil :inherit nil))))
- '(diff-removed ((t (:foreground "#991414" :background nil :inherit nil)))))
+
 ;; (magit-file-header ((t (:foreground "violet"))))
 ;; (magit-hunk-header ((t (:foreground "blue"))))
 ;; (magit-header ((t (:foreground "cyan"))))
@@ -179,6 +180,46 @@
 ;;===========================================
 ;(add-to-list 'auto-mode-alist '("\\.tf$" . terraform-mode)
 
+
+;;===========================================
+;; react-mode
+;;===========================================
+;; .js, .jsx を web-mode で開く
+(add-to-list 'auto-mode-alist '("\\.js[x]?$" . web-mode))
+
+;; 拡張子 .js でもJSX編集モードに
+(setq web-mode-content-types-alist
+      '(("jsx" . "\\.js[x]?\\'")))
+
+;; インデント
+(add-hook 'web-mode-hook
+          '(lambda ()
+             (setq web-mode-attr-indent-offset nil)
+             (setq web-mode-markup-indent-offset 2)
+             (setq web-mode-css-indent-offset 2)
+             (setq web-mode-code-indent-offset 2)
+             (setq web-mode-sql-indent-offset 2)
+             (setq indent-tabs-mode nil)
+             (setq tab-width 2)
+          ))
+
+;; 色
+(custom-set-faces
+ '(web-mode-doctype-face           ((t (:foreground "#4A8ACA"))))
+ '(web-mode-html-tag-face          ((t (:foreground "#4A8ACA"))))
+ '(web-mode-html-attr-name-face    ((t (:foreground "#87CEEB"))))
+ '(web-mode-html-attr-equal-face   ((t (:foreground "#FFFFFF"))))
+ '(web-mode-html-attr-value-face   ((t (:foreground "#D78181"))))
+ '(web-mode-comment-face           ((t (:foreground "#587F35"))))
+ '(web-mode-server-comment-face    ((t (:foreground "#587F35"))))
+
+ '(web-mode-css-at-rule-face       ((t (:foreground "#DFCF44"))))
+ '(web-mode-comment-face           ((t (:foreground "#587F35"))))
+ '(web-mode-css-selector-face      ((t (:foreground "#DFCF44"))))
+ '(web-mode-css-pseudo-class       ((t (:foreground "#DFCF44"))))
+ '(web-mode-css-property-name-face ((t (:foreground "#87CEEB"))))
+ '(web-mode-css-string-face        ((t (:foreground "#D78181"))))
+ )
 
 
 ;;===========================================
