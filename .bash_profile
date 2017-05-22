@@ -1,6 +1,6 @@
-if [ -f ~/.bashrc -o -L ~/.bashrc ]; then
-    . ~/.bashrc
-fi
+# if [ -f ~/.bashrc -o -L ~/.bashrc ]; then
+    source ~/.bashrc
+# fi
 
 alias f='open .'
 alias j='z'
@@ -39,3 +39,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 export PATH="/usr/local/terraform/bin:/home/$(whoami):$PATH"
+export PATH="/usr/local/opt/tomcat@8.0/bin:$PATH"

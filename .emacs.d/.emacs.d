@@ -1,0 +1,1 @@
+/Users/oki-yusuke/dotfiles/.emacs.d

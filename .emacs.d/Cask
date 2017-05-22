@@ -46,3 +46,5 @@
 
 (depends-on "terraform-mode")
 (depends-on "highlight-indentation")
+
+(depends-on "emmet-mode")
