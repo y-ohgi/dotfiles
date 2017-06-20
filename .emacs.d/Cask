@@ -46,3 +46,9 @@
 
 (depends-on "terraform-mode")
 (depends-on "highlight-indentation")
+
+(depends-on "vue-mode")
+(depends-on "mmm-mode")
+(depends-on "vue-html-mode")
+
+(depends-on "emmet-mode")

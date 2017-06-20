@@ -39,3 +39,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 export PATH="/usr/local/terraform/bin:/home/$(whoami):$PATH"
+
+
+source ~/.phpbrew/bashrc
