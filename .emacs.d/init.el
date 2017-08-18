@@ -53,6 +53,10 @@
  '(global-anzu-mode t)
  '(global-company-mode t)
  '(helm-mode t)
+ '(js-indent-level 2)
+ '(package-selected-packages
+   (quote
+    (less-css-mode yaml-mode web-mode vue-mode use-package undo-tree terraform-mode sync-recentf smex smartparens slim-mode recentf-ext projectile prodigy popwin pallet nyan-mode multiple-cursors markdown-mode magit js2-mode idle-highlight-mode htmlize highlight-indentation helm flycheck-cask expand-region exec-path-from-shell emmet-mode drag-stuff dockerfile-mode company anzu ac-php)))
  '(popwin-mode t)
  '(recentf-mode t))
 (custom-set-faces
@@ -62,7 +66,21 @@
  ;; If there is more than one, they won't work right.
  '(custom-group-tag ((t (:inherit variable-pitch :foreground "blue" :weight bold :height 1.2))))
  '(custom-variable-tag ((t (:foreground "color-31" :weight bold))))
- '(font-lock-function-name-face ((t (:foreground "color-30")))))
+ '(diff-added ((t (:foreground "#149914" :background nil :inherit nil))))
+ '(diff-removed ((t (:foreground "#991414" :background nil :inherit nil))))
+ '(font-lock-function-name-face ((t (:foreground "color-30"))))
+ '(web-mode-comment-face ((t (:foreground "#587F35"))))
+ '(web-mode-css-at-rule-face ((t (:foreground "#DFCF44"))))
+ '(web-mode-css-property-name-face ((t (:foreground "#87CEEB"))))
+ '(web-mode-css-pseudo-class ((t (:foreground "#DFCF44"))))
+ '(web-mode-css-selector-face ((t (:foreground "#DFCF44"))))
+ '(web-mode-css-string-face ((t (:foreground "#D78181"))))
+ '(web-mode-doctype-face ((t (:foreground "#4A8ACA"))))
+ '(web-mode-html-attr-equal-face ((t (:foreground "#FFFFFF"))))
+ '(web-mode-html-attr-name-face ((t (:foreground "#87CEEB"))))
+ '(web-mode-html-attr-value-face ((t (:foreground "#D78181"))))
+ '(web-mode-html-tag-face ((t (:foreground "#4A8ACA"))))
+ '(web-mode-server-comment-face ((t (:foreground "#587F35")))))
 
 
 ;;===========================================
@@ -142,9 +160,7 @@
 ;;===========================================
 (require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
-(custom-set-faces  
- '(diff-added ((t (:foreground "#149914" :background nil :inherit nil))))
- '(diff-removed ((t (:foreground "#991414" :background nil :inherit nil)))))
+
 ;; (magit-file-header ((t (:foreground "violet"))))
 ;; (magit-hunk-header ((t (:foreground "blue"))))
 ;; (magit-header ((t (:foreground "cyan"))))
@@ -175,23 +191,6 @@
 
 
 ;;===========================================
-;; terraform-mode
-;;===========================================
-;(add-to-list 'auto-mode-alist '("\\.tf$" . terraform-mode)
-
-
-
-;;===========================================
-;; java-mode
-;;===========================================
-(add-hook 'java-mode-hook
-	  (lambda ()
-	    (setq indent-tabs-mode nil)
-	    (setq c-basic-offset 4)))
-
-
-
-;;===========================================
 ;; php-mode
 ;;===========================================
 (add-to-list 'auto-mode-alist '("\\.inc$" . php-mode))
@@ -209,6 +208,45 @@
 ;;===========================================
 (require 'emmet-mode)
 (add-hook 'web-mode-hook 'emmet-mode)
+
+
+;;===========================================
+;; vue-mode
+;;===========================================
+;; (defun your-layer-name/init-vue-mode ()
+;;   (use-package vue-mode
+;;     :config
+;;     ;; 0, 1, or 2, representing (respectively) none, low, and high coloring
+;;     (setq mmm-submode-decoration-level 0)))
+(add-to-list 'auto-mode-alist '("\\.vue$" . vue-mode))
+
+
+
+;;===========================================
+;; php-mode
+;;===========================================
+(require 'cl)
+(add-hook 'php-mode-hook
+            '(lambda ()
+               (auto-complete-mode t)
+               (require 'ac-php)
+               (setq ac-sources  '(ac-source-php ) )
+               (yas-global-mode 1)
+               (define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)   ;goto define
+               (define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back   ) ;go back
+               ))
+
+
+;;===========================================
+;; js-mode
+;;===========================================
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(eval-after-load 'flycheck
+  '(custom-set-variables
+    '(flycheck-disabled-checkers '(javascript-jshint javascript-jscs))))
+(setq js2-strict-missing-semi-warning nil)
+(setq-default indent-tabs-mode nil)
+(add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 2)))
 
 ;;===========================================
 ;; template

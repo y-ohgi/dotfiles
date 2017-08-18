@@ -1,6 +1,7 @@
-# if [ -f ~/.bashrc -o -L ~/.bashrc ]; then
-    source ~/.bashrc
-# fi
+source ~/.bashrc
+if [ -f ~/.bash_profile_cmp -o -L ~/.bash_profile_cmp ]; then
+    source ~/.bash_profile_cmp
+fi
 
 alias f='open .'
 alias j='z'
@@ -39,4 +40,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 export PATH="/usr/local/terraform/bin:/home/$(whoami):$PATH"
-export PATH="/usr/local/opt/tomcat@8.0/bin:$PATH"
+#export PATH="/usr/local/opt/tomcat@8.0/bin:$PATH"
+export PATH="$HOME/.phpenv/bin:$PATH"
+eval "$(phpenv init -)"
+
+PATH=".composer/vendor/bin/:$PATH"
+
