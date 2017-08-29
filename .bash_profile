@@ -1,5 +1,6 @@
-if [ -f ~/.bashrc -o -L ~/.bashrc ]; then
-    . ~/.bashrc
+source ~/.bashrc
+if [ -f ~/.bash_profile_cmp -o -L ~/.bash_profile_cmp ]; then
+    source ~/.bash_profile_cmp
 fi
 
 alias f='open .'
@@ -33,12 +34,9 @@ export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export GO15VENDOREXPERIMENT=1
 
-#export PATH=$PATH:$HOME/.nodebrew/current/bin
 export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-export PATH="/usr/local/terraform/bin:/home/$(whoami):$PATH"
+PATH=".composer/vendor/bin/:$PATH"
 
-
-source ~/.phpbrew/bashrc
