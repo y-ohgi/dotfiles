@@ -11,6 +11,12 @@ alias pbcopy="nkf -w | __CF_USER_TEXT_ENCODING=0x$(printf %x $(id -u)):0x0800010
 alias redis="/usr/local/bin/redis-server &"
 alias fuck='eval "$(thefuck --alias)"'
 
+# mkcd だとエラーを吐かれる
+mkdc() {
+    mkdir -p -- "$1" &&
+      cd -P -- "$1"
+}
+
 cdf() {
     target=`osascript -e 'tell application "Finder" to if (count of Finder windows) > 0 then get POSIX path of (target of front Finder window as text)'`
     if [ "$target" != "" ]; then
