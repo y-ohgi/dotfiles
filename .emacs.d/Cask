@@ -57,3 +57,5 @@
 
 (depends-on "ensime")
 (depends-on "scala-mode")
+
+(depends-on "indent-guide")

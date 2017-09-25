@@ -4,7 +4,6 @@
 ;; common
 ;;===========================================
 (prefer-coding-system 'utf-8)
-
 (package-initialize)
 
 (require 'cask)
@@ -56,7 +55,7 @@
  '(js-indent-level 2)
  '(package-selected-packages
    (quote
-    (less-css-mode yaml-mode web-mode vue-mode use-package undo-tree terraform-mode sync-recentf smex smartparens slim-mode recentf-ext projectile prodigy popwin pallet nyan-mode multiple-cursors markdown-mode magit js2-mode idle-highlight-mode htmlize highlight-indentation helm flycheck-cask expand-region exec-path-from-shell emmet-mode drag-stuff dockerfile-mode company anzu ac-php)))
+    (indent-guide less-css-mode yaml-mode web-mode vue-mode use-package undo-tree terraform-mode sync-recentf smex smartparens slim-mode recentf-ext projectile prodigy popwin pallet nyan-mode multiple-cursors markdown-mode magit js2-mode idle-highlight-mode htmlize highlight-indentation helm flycheck-cask expand-region exec-path-from-shell emmet-mode drag-stuff dockerfile-mode company anzu ac-php)))
  '(popwin-mode t)
  '(recentf-mode t))
 (custom-set-faces
@@ -92,7 +91,14 @@
 ;;===========================================
 ;; company
 ;;===========================================
+;; (require 'company)
+;; (add-to-list 'company-backends '(company-capf company-dabbrev))
+;; (setq-local company-dabbrev-downcase nil)
 (require 'company)
+(require 'company-dabbrev)
+(add-hook 'after-init-hook 'global-company-mode)
+(setq company-dabbrev-downcase nil)
+
 (define-key company-active-map (kbd "M-n") nil)
 (define-key company-active-map (kbd "M-p") nil)
 (define-key company-active-map (kbd "C-n") 'company-select-next)
@@ -247,6 +253,12 @@
 (setq js2-strict-missing-semi-warning nil)
 (setq-default indent-tabs-mode nil)
 (add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 2)))
+
+
+;;===========================================
+;; indent-guide-mode
+;;===========================================
+(setq indent-guide-recursive t)
 
 ;;===========================================
 ;; template

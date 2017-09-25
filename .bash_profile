@@ -46,3 +46,5 @@ eval "$(phpenv init -)"
 
 PATH=".composer/vendor/bin/:$PATH"
 
+eval "$(direnv hook bash)"
+alias direnv="EDITOR=vi direnv"
