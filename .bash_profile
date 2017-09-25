@@ -11,6 +11,12 @@ alias pbcopy="nkf -w | __CF_USER_TEXT_ENCODING=0x$(printf %x $(id -u)):0x0800010
 alias redis="/usr/local/bin/redis-server &"
 alias fuck='eval "$(thefuck --alias)"'
 
+# mkcd だとエラーを吐かれる
+mkdc() {
+    mkdir -p -- "$1" &&
+      cd -P -- "$1"
+}
+
 cdf() {
     target=`osascript -e 'tell application "Finder" to if (count of Finder windows) > 0 then get POSIX path of (target of front Finder window as text)'`
     if [ "$target" != "" ]; then
@@ -34,15 +40,9 @@ export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export GO15VENDOREXPERIMENT=1
 
-#export PATH=$PATH:$HOME/.nodebrew/current/bin
 export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-
-export PATH="/usr/local/terraform/bin:/home/$(whoami):$PATH"
-#export PATH="/usr/local/opt/tomcat@8.0/bin:$PATH"
-export PATH="$HOME/.phpenv/bin:$PATH"
-eval "$(phpenv init -)"
 
 PATH=".composer/vendor/bin/:$PATH"
 
