@@ -32,6 +32,9 @@ cdf() {
 db() {
     docker run -it $@ bash
 }
+dbv() {
+    docker run -it -v `pwd`:/tmp/shared $@ bash
+}
 
 export PATH=$PATH:$HOME/.rbenv/bin
 eval "$(rbenv init -)"
