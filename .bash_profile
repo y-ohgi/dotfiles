@@ -28,6 +28,10 @@ cdf() {
     fi
 }
 
+# docker run -it ${image} bash の短縮形
+db() {
+    docker run -it $@ bash
+}
 
 export PATH=$PATH:$HOME/.rbenv/bin
 eval "$(rbenv init -)"
