@@ -6,6 +6,8 @@ fi
 alias f='open .'
 alias j='z'
 
+alias g='git'
+alias d='docker'
 alias fig='docker-compose'
 alias pbcopy="nkf -w | __CF_USER_TEXT_ENCODING=0x$(printf %x $(id -u)):0x08000100:14 pbcopy"
 alias redis="/usr/local/bin/redis-server &"
@@ -30,9 +32,9 @@ cdf() {
 export PATH=$PATH:$HOME/.rbenv/bin
 eval "$(rbenv init -)"
 
-export PYENV_ROOT="${HOME}/.pyenv"
-export PATH=${PYENV_ROOT}/bin:$PATH
-eval "$(pyenv init -)"
+# export PYENV_ROOT="${HOME}/.pyenv"
+# export PATH=${PYENV_ROOT}/bin:$PATH
+# eval "$(pyenv init -)"
 
 . `brew --prefix`/etc/profile.d/z.sh
 
@@ -48,3 +50,6 @@ PATH=".composer/vendor/bin/:$PATH"
 
 eval "$(direnv hook bash)"
 alias direnv="EDITOR=vi direnv"
+
+#export PHPBREW_SET_PROMPT=1
+source ~/.phpbrew/bashrc
