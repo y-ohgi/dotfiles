@@ -59,3 +59,9 @@
 (depends-on "scala-mode")
 
 (depends-on "indent-guide")
+
+(depends-on "kotlin-mode")
+(depends-on "gradle-mode")
+(depends-on "groovy-mode")
+
+(depends-on "editorconfig")
