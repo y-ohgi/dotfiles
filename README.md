@@ -3,11 +3,24 @@ dotfiles
 
 # local
 ```
-$ brew install rbenv pyenv z thefuck bash-completion stern kubectx kube-ps1
+$ brew install z direnv bash-completion stern kubectx kube-ps1
 $ ./dotfilesLink.sh
 ```
 
+# gui
+```
+$ brew cask install google-japanese-ime alfred bettertouchtool docker inkdrop gyazo atom kitematic 
+```
 
+## Web Site
+* WunderList
+    - https://www.wunderlist.com/ja/download/
+* Google Chrome
+    - https://www.google.co.jp/chrome/
+
+## AppStore
+* 1password
+* slack
 
 # server
 `.bashrc` と `.emacs.d/init.el.server` を読み込ませる
