@@ -13,8 +13,8 @@ alias pbcopy="nkf -w | __CF_USER_TEXT_ENCODING=0x$(printf %x $(id -u)):0x0800010
 alias redis="/usr/local/bin/redis-server &"
 alias fuck='eval "$(thefuck --alias)"'
 
-# mkcd だとエラーを吐かれる
-mkdc() {
+# mkcd だとエラーを吐かれる mkdc() {
+mkcd() {
     mkdir -p -- "$1" &&
       cd -P -- "$1"
 }
@@ -36,27 +36,25 @@ dbv() {
     docker run -it -v `pwd`:/tmp/shared $@ bash
 }
 
-export PATH=$PATH:$HOME/.rbenv/bin
-eval "$(rbenv init -)"
-
-# export PYENV_ROOT="${HOME}/.pyenv"
-# export PATH=${PYENV_ROOT}/bin:$PATH
-# eval "$(pyenv init -)"
-
 . `brew --prefix`/etc/profile.d/z.sh
-
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
-export GO15VENDOREXPERIMENT=1
-
-export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-
-PATH=".composer/vendor/bin/:$PATH"
 
 eval "$(direnv hook bash)"
 alias direnv="EDITOR=vi direnv"
 
-#export PHPBREW_SET_PROMPT=1
-source ~/.phpbrew/bashrc
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/ogi-yusuke/.sdkman"
+[[ -s "/Users/ogi-yusuke/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/ogi-yusuke/.sdkman/bin/sdkman-init.sh"
+
+export "PATH=$PATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/"
+
+
+. $(brew --prefix)/etc/bash_completion
+source <(stern --completion=bash)
+source <(kubectl completion bash)
+
+PS1="[\W]\$ "
+
+kubeps1() {
+    source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+    PS1='[\W $(kube_ps1)]\$ '
+}
