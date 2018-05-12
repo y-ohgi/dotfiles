@@ -8,7 +8,6 @@ alias j='z'
 
 alias g='git'
 alias d='docker'
-alias k='kubectl'
 alias fig='docker-compose'
 alias pbcopy="nkf -w | __CF_USER_TEXT_ENCODING=0x$(printf %x $(id -u)):0x08000100:14 pbcopy"
 alias redis="/usr/local/bin/redis-server &"
@@ -54,13 +53,16 @@ source <(kubectl completion bash)
 
 PS1="[\W (\[\e[0;34m\$(cat ~/.config/gcloud/configurations/config_default | grep project | sed -E 's/^\project = (.*)$/\1/'))\[\e[0m\])]\$ "
 
-kubeps1() {
-    source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-    PS1='[\W $(kube_ps1)]\$ '
-}
-
 kps1() {
+    echo "hoge"
     source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
     PS1='[\W $(kube_ps1)]\$ '
 }
 
+# alias k='kubectl'
+export IS_KUBE_PS1_ENABLED=false
+k() {
+    [[ "${IS_KUBE_PS1_ENABLED}" == false ]] && IS_KUBE_PS1_ENABLED=true && kps1
+
+    kubectl $@
+}
