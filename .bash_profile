@@ -54,7 +54,6 @@ source <(kubectl completion bash)
 PS1="[\W (\[\e[0;34m\$(cat ~/.config/gcloud/configurations/config_default | grep project | sed -E 's/^\project = (.*)$/\1/'))\[\e[0m\])]\$ "
 
 kps1() {
-    echo "hoge"
     source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
     PS1='[\W $(kube_ps1)]\$ '
 }
