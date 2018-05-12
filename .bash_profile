@@ -8,6 +8,7 @@ alias j='z'
 
 alias g='git'
 alias d='docker'
+alias k='kubectl'
 alias fig='docker-compose'
 alias pbcopy="nkf -w | __CF_USER_TEXT_ENCODING=0x$(printf %x $(id -u)):0x08000100:14 pbcopy"
 alias redis="/usr/local/bin/redis-server &"
@@ -47,14 +48,19 @@ export SDKMAN_DIR="/Users/ogi-yusuke/.sdkman"
 
 export "PATH=$PATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/"
 
-
 . $(brew --prefix)/etc/bash_completion
 source <(stern --completion=bash)
 source <(kubectl completion bash)
 
-PS1="[\W]\$ "
+PS1="[\W (\[\e[0;34m\$(cat ~/.config/gcloud/configurations/config_default | grep project | sed -E 's/^\project = (.*)$/\1/'))\[\e[0m\])]\$ "
 
 kubeps1() {
     source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
     PS1='[\W $(kube_ps1)]\$ '
 }
+
+kps1() {
+    source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+    PS1='[\W $(kube_ps1)]\$ '
+}
+
