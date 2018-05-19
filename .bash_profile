@@ -51,11 +51,18 @@ export "PATH=$PATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/
 source <(stern --completion=bash)
 source <(kubectl completion bash)
 
-PS1="[\W (\[\e[0;34m\$(cat ~/.config/gcloud/configurations/config_default | grep project | sed -E 's/^\project = (.*)$/\1/')\[\e[0m\])]\$ "
+git_branch() {
+    echo $(git branch 2>/dev/null | sed -ne "s/^\* \(.*\)$/\1/p")
+}
+gcp_project() {
+    echo $(cat ~/.config/gcloud/configurations/config_default | grep project | sed -E 's/^\project = (.*)$/\1/')
+}
+
+PS1="\w \[\033[40;1;32m\]$(git_branch)\[\033[0m\] \[\e[0;34mgcp:\$(gcp_project)\[\e[0m\] \n\$ "
 
 kps1() {
     source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-    PS1='[\W $(kube_ps1)]\$ '
+    PS1="$(kube_ps1) \w \[\033[40;1;32m\]$(git_branch)\[\033[0m\] \[\e[0;34mgcp:\$(gcp_project)\[\e[0m\] \n\$ "
 }
 
 # alias k='kubectl'
