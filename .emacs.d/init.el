@@ -55,7 +55,7 @@
  '(js-indent-level 2)
  '(package-selected-packages
    (quote
-    (indent-guide less-css-mode yaml-mode web-mode vue-mode use-package undo-tree terraform-mode sync-recentf smex smartparens slim-mode recentf-ext projectile prodigy popwin pallet nyan-mode multiple-cursors markdown-mode magit js2-mode idle-highlight-mode htmlize highlight-indentation helm flycheck-cask expand-region exec-path-from-shell emmet-mode drag-stuff dockerfile-mode company anzu ac-php)))
+    (feature-mode gherkin-mode pbcopy plantuml-mode indent-guide less-css-mode yaml-mode web-mode vue-mode use-package undo-tree terraform-mode sync-recentf smex smartparens slim-mode recentf-ext projectile prodigy popwin pallet nyan-mode multiple-cursors markdown-mode magit js2-mode idle-highlight-mode htmlize highlight-indentation helm flycheck-cask expand-region exec-path-from-shell emmet-mode drag-stuff dockerfile-mode company anzu ac-php)))
  '(popwin-mode t)
  '(recentf-mode t))
 (custom-set-faces
@@ -279,6 +279,31 @@
 ;; gradle-mode
 ;;===========================================
 (gradle-mode 1)
+
+;;===========================================
+;; multiple cursors
+;;===========================================
+(use-package multiple-cursors
+  :init
+  (require 'smartrep)
+  (declare-function smartrep-define-key "smartrep")
+  (bind-key "C-M-c" 'mc/edit-lines)
+  (bind-key "C-M-r" 'mc/mark-all-in-region)
+  (global-unset-key (kbd "C-t"))
+  (smartrep-define-key global-map "C-t"
+    '(("C-t" . 'mc/mark-next-like-this)
+      ("n"   . 'mc/mark-next-like-this)
+      ("p"   . 'mc/mark-previous-like-this)
+      ("m"   . 'mc/mark-more-like-this-extended)
+      ("u"   . 'mc/unmark-next-like-this)
+      ("U"   . 'mc/unmark-previous-like-this)
+      ("s"   . 'mc/skip-to-next-like-this)
+      ("S"   . 'mc/skip-to-previous-like-this)
+      ("*"   . 'mc/mark-all-like-this)
+      ("d"   . 'mc/mark-all-like-this-dwim)
+      ("i"   . 'mc/insert-numbers)
+      ("o"   . 'mc/sort-regions)
+      ("O"   . 'mc/reverse-regions))))
 
 ;;===========================================
 ;; template
