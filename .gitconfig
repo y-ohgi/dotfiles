@@ -1,38 +1,35 @@
 [alias]
-	# 短縮
-	b = branch
-	c = commit -am
-  	st = status
- 	stt = status -uno
-	co = checkout
-	cob = checkout -b
-        pom = pull origin master
-        pod = pull origin develop
+  #短縮
+  b = branch
+  c = commit -am
+  st = status
+  stt = status -uno
+  co = checkout
+  cob = checkout -b
+  pom = pull origin master
+  pod = pull origin develop
 
-        logf = log --name-status --pretty=format:\"%C(red)%h %C(green)%an %Creset%s %C(yellow)%d%Creset\"
-
-        # Untracked filesを表示せず，not stagedと，stagedだけの状態を出力する
+	l = log -n 10 --date=short --pretty=format:'%cd %C(yellow)%h%Creset %C(green)%an %Creset%s  %Creset'
+  logf = log --name-status --pretty=format:\"%C(red)%h %C(green)%an %Creset%s %C(yellow)%d%Creset\"
 	tree = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
-	
-        # いい感じのグラフでログを表示
-   	graph = log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'
-        # 上の省略形
-  	gr = log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'
-        # 行ごとの差分じゃなくて，単語レベルでの差分を色付きで表示する
-  	difff = diff --word-diff
+ 	graph = log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'
+	gr = log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'
 
-	# カレントブランチをpushする
+  #行ごとの差分じゃなくて，単語レベルでの差分を色付きで表示する
+	difff = diff --word-diff
+	wdiff = diff --word-diff=plain
+
+  #カレントブランチをpushする
 	p = !git push origin `git rev-parse --abbrev-ref HEAD`
 
-
 [core]
-	excludesfile = ~/.gitignore_global
+  excludesfile = ~/.gitignore_global
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path =
 [mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+  cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
 [credential]
-	helper = !aws codecommit credential-helper $@
-	UseHttpPath = true
+  helper = !aws codecommit credential-helper $@
+  UseHttpPath = true
