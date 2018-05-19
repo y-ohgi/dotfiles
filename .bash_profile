@@ -63,7 +63,7 @@ gcp_project() {
 
 kps1() {
     if [[ "${TMUX}" == "" ]]; then
-        PS1="$(kube_ps1) \w \[\033[40;1;32m\]\$(git_branch)\[\033[0m\] \[\e[0;34mgcp:\$(gcp_project)\[\e[0m\] \n\$ "
+        PS1="$(kube_ps1) \w \[\033[40;1;32m\]\$(git_branch)\[\033[0m\]\[\e[0;34mgcp:\$(gcp_project)\[\e[0m\] \n\$ "
     fi
 }
 
