@@ -51,7 +51,7 @@ export "PATH=$PATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/
 source <(stern --completion=bash)
 source <(kubectl completion bash)
 
-PS1="[\W (\[\e[0;34m\$(cat ~/.config/gcloud/configurations/config_default | grep project | sed -E 's/^\project = (.*)$/\1/'))\[\e[0m\])]\$ "
+PS1="[\W (\[\e[0;34m\$(cat ~/.config/gcloud/configurations/config_default | grep project | sed -E 's/^\project = (.*)$/\1/')\[\e[0m\])]\$ "
 
 kps1() {
     source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
