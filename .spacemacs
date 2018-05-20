@@ -324,9 +324,6 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (global-set-key "\M-h" 'backward-kill-word)
   (global-set-key (kbd "C-o") 'other-window)
 
-  (setq js2-strict-missing-semi-warning nil)
-  (setq js2-missing-semi-one-line-override nil)
-
   (editorconfig-mode 1)
 
   (require 'multiple-cursors)
@@ -353,6 +350,19 @@ before packages are loaded. If you are unsure, you should try in setting them in
                          ("i"        . 'mc/insert-numbers)
                          ("o"        . 'mc/sort-regions)
                          ("O"        . 'mc/reverse-regions)))
+
+
+  (setq js2-strict-missing-semi-warning nil)
+  (setq js2-missing-semi-one-line-override nil)
+
+  (setq indent-guide-recursive t)
+
+  (add-hook 'yaml-mode-hook
+            '(lambda()
+               (indent-guide-mode t)
+               (indent-guide-show t)
+               ))
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
