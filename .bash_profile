@@ -47,6 +47,22 @@ dbv() {
 
 
 ####################
+# key bind
+peco-select-history() {
+    local tac
+    if which tac > /dev/null; then
+        tac="tac"
+    else
+        tac="tail -r"
+    fi
+    local l=$(\history | awk '{$1="";print}' | eval $tac | peco | cut -d' ' -f4-)
+    READLINE_LINE="${l}"
+    READLINE_POINT=${#l}
+}
+bind -x '"\C-\M-r": peco-select-history'
+
+
+####################
 # Prompt
 git_branch() {
     GIT_BRANCH_NAME=$(git branch 2>/dev/null | sed -ne "s/^\* \(.*\)$/\1/p")
