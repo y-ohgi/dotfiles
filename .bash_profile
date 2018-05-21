@@ -2,11 +2,10 @@
 BREW_PREFIX=$(brew --prefix)
 
 . ~/.bashrc
-[[ -s ~/.bash_profile_cmp -o -L ~/.bash_profile_cmp ]] && . ~/.bash_profile_cmp
+[[ -s ~/.bash_profile_cmp ]] && . ~/.bash_profile_cmp
 . ${BREW_PREFIX}/etc/profile.d/z.sh
 . ${BREW_PREFIX}/etc/bash_completion
 .  /usr/local/opt/kube-ps1/share/kube-ps1.sh
-[[ -s "~/.sdkman/bin/sdkman-init.sh" ]] && . ~/.sdkman/bin/sdkman-init.sh && export SDKMAN_DIR="/Users/ogi-yusuke/.sdkman"
 
 
 export "PATH=$PATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/"
