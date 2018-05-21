@@ -3,7 +3,7 @@ dotfiles
 
 # local
 ```
-$ brew install z direnv bash-completion stern kubectx kube-ps1
+$ brew install z direnv bash-completion stern kubectx kube-ps1 reattach-to-user-namespace ghq
 $ ./dotfilesLink.sh
 ```
 

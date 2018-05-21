@@ -1,6 +1,6 @@
 #!/bin/sh
 
-files=(.bashrc .bash_profile .gitignore .gitconfig .gitignore_global .vimrc .emacs.d .tmux.conf .tmux_themes .zshrc)
+files=(.bashrc .bash_profile .gitignore .gitconfig .gitignore_global .vimrc .spacemacs .tmux.conf .tmux_themes .zshrc)
 
 for file in ${files[@]}; do
     echo $file

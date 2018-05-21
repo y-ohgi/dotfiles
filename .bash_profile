@@ -1,15 +1,16 @@
-source ~/.bashrc
-if [ -f ~/.bash_profile_cmp -o -L ~/.bash_profile_cmp ]; then
-    source ~/.bash_profile_cmp
-fi
-
 # brew --prefix が地味に遅いので変数へ退避
 BREW_PREFIX=$(brew --prefix)
 
+. ~/.bashrc
+[[ -s ~/.bash_profile_cmp -o -L ~/.bash_profile_cmp ]] && . ~/.bash_profile_cmp
 . ${BREW_PREFIX}/etc/profile.d/z.sh
 . ${BREW_PREFIX}/etc/bash_completion
 .  /usr/local/opt/kube-ps1/share/kube-ps1.sh
-[[ -s "~/.sdkman/bin/sdkman-init.sh" ]] && . ~/.sdkman/bin/sdkman-init.sh
+[[ -s "~/.sdkman/bin/sdkman-init.sh" ]] && . ~/.sdkman/bin/sdkman-init.sh && export SDKMAN_DIR="/Users/ogi-yusuke/.sdkman"
+
+
+export "PATH=$PATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/"
+
 
 alias f='open .'
 alias j='z'
@@ -22,10 +23,6 @@ alias pbcopy="nkf -w | __CF_USER_TEXT_ENCODING=0x$(printf %x $(id -u)):0x0800010
 
 eval "$(direnv hook bash)"
 alias direnv="EDITOR=vi direnv"
-
-
-export SDKMAN_DIR="/Users/ogi-yusuke/.sdkman"
-export "PATH=$PATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/"
 
 
 mkcd() {
