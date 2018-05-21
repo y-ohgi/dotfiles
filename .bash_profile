@@ -10,6 +10,10 @@ BREW_PREFIX=$(brew --prefix)
 
 export "PATH=$PATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/"
 
+if [[ "${TMUX}" != "" ]]; then
+    export EDITOR=emacsclient
+fi
+
 
 alias f='open .'
 alias j='z'
@@ -59,7 +63,11 @@ peco-select-history() {
     READLINE_LINE="${l}"
     READLINE_POINT=${#l}
 }
-bind -x '"\C-\M-r": peco-select-history'
+# M-r
+bind -x '"\er": peco-select-history'
+
+# M-h
+bind '"\eh": backward-kill-word'
 
 
 ####################
