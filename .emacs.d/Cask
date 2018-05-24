@@ -65,3 +65,6 @@
 (depends-on "groovy-mode")
 
 (depends-on "editorconfig")
+
+(depends-on "multiple-cursors")
+(depends-on "smartrep")

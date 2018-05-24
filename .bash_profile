@@ -1,11 +1,16 @@
 # brew --prefix が地味に遅いので変数へ退避
 BREW_PREFIX=$(brew --prefix)
+GHQ_ROOT_PATH=$(ghq root)
 
 . ~/.bashrc
 [[ -s ~/.bash_profile_cmp ]] && . ~/.bash_profile_cmp
 . ${BREW_PREFIX}/etc/profile.d/z.sh
 . ${BREW_PREFIX}/etc/bash_completion
 .  /usr/local/opt/kube-ps1/share/kube-ps1.sh
+
+if [ -e `ghq list --full-path | grep enhancd | head -n 1`  ]; then
+    . $GHQ_ROOT_PATH/$(ghq list | grep enhancd | head -n 1)/init.sh
+fi
 
 
 export "PATH=$PATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/"
@@ -48,6 +53,41 @@ db() {
 dbv() {
     docker run -it -v `pwd`:/tmp/shared $@ bash
 }
+
+
+p() {
+    case "$1" in
+        ghq)
+            builtin cd $(ghq root)/$(ghq list | fzf) ;;
+        git-checkout)
+            local tags branches target
+
+            git status &> /dev/null || return
+
+            tags=$(git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || ''
+            branches=$(
+                git branch --all | grep -v HEAD             |
+                    sed "s/.* //"    | sed "s#remotes/[^/]*/##" |
+                    sort -u          | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || ''
+            target=$(
+                (echo "$tags"; echo "$branches") |
+                    fzf-tmux -l30 -- --no-hscroll --ansi +m -d "\t" -n 2) || return
+
+            git checkout $(echo "$target" | awk '{print $2}');;
+
+        git-checkout-remote)
+            local branches branch
+            branches=$(git branch --all | grep -v HEAD) &&
+                branches==$(echo "$branches" | fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+                git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##") ;;
+
+    esac
+}
+_p() {
+    local cur=${COMP_WORDS[COMP_CWORD]}
+    COMPREPLY=( $(compgen -W "ghq git-checkout git-checkout-remote" -- $cur) )
+}
+complete -F _p p
 
 
 ####################
