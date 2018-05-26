@@ -11,3 +11,4 @@ if [ "$(uname)" = 'Darwin' ]; then
 fi
 export LESSCHARSET=utf-8
 export LC_CTYPE=ja_JP.UTF-8
+export LANG=C.UTF-8

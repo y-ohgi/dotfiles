@@ -35,13 +35,13 @@ alias direnv="EDITOR=vi direnv"
 
 mkcd() {
     mkdir -p -- "$1" &&
-      cd -P -- "$1"
+      builtin cd -P -- "$1"
 }
 
 cdf() {
     target=`osascript -e 'tell application "Finder" to if (count of Finder windows) > 0 then get POSIX path of (target of front Finder window as text)'`
     if [ "$target" != "" ]; then
-        cd "$target"; pwd
+        builtin cd "$target"; pwd
     else
         echo 'No Finder window found' >&2
     fi
@@ -55,10 +55,37 @@ dbv() {
 }
 
 
+k() {
+    # bashの起動速度を上げるため、kubectlを使用する際に有効化させる
+    if [[ "${IS_KUBE_PS1_ENABLED}" == false ]]; then
+        IS_KUBE_PS1_ENABLED=true
+
+        source <(stern --completion=bash) # たぶん効いてない
+        source <(kubectl completion bash)
+    fi
+
+    kubectl $@
+}
+
+
+#TODO: "/p-scripts" を作成し、その中へ関数毎に格納する。格納したファイル名を元に補完&ファイルを実行
 p() {
     case "$1" in
+        # ghq リポジトリ一覧
         ghq)
             builtin cd $(ghq root)/$(ghq list | fzf) ;;
+
+        # ghq 新規リポジトリ作成
+        ghq-mkrepo)
+            local repo
+
+            [[ -z $2 ]] && return
+
+            repo=$( ls -1 `ghq root` | fzf )
+
+            mkdir -p $(ghq root)/${repo}/_local/$2 && builtin cd $_ && git init;;
+
+        # git ブランチもしくはタグへチェックアウト
         git-checkout)
             local tags branches target
 
@@ -75,17 +102,22 @@ p() {
 
             git checkout $(echo "$target" | awk '{print $2}');;
 
+        # git リモートブランチへチェックアウト
         git-checkout-remote)
             local branches branch
             branches=$(git branch --all | grep -v HEAD) &&
                 branches==$(echo "$branches" | fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
                 git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##") ;;
 
+        gcloud-set-project)
+            local project
+            project=$(gcloud projects list --format=json | jq -r 'map(.name) | .[]' | fzf) || return
+            gcloud config set project ${project} ;;
     esac
 }
 _p() {
     local cur=${COMP_WORDS[COMP_CWORD]}
-    COMPREPLY=( $(compgen -W "ghq git-checkout git-checkout-remote" -- $cur) )
+    COMPREPLY=( $(compgen -W "ghq ghq-mkrepo git-checkout git-checkout-remote gcloud-set-project" -- $cur) )
 }
 complete -F _p p
 
@@ -112,31 +144,35 @@ bind '"\eh": backward-kill-word'
 
 ####################
 # Prompt
-git_branch() {
-    GIT_BRANCH_NAME=$(git branch 2>/dev/null | sed -ne "s/^\* \(.*\)$/\1/p")
-    [[ "${GIT_BRANCH_NAME}" != "" ]] && echo "${GIT_BRANCH_NAME} "
+IS_KUBE_PS1_ENABLED=false # kube_ps1の有効状態
+
+Green="\[\033[0;32m\]"
+Blue="\[\033[0;34m\]"
+Color_Off="\[\033[0m\]"
+
+PROMPT_COMMAND=_prompt_command
+_prompt_command() {
+    LAST_EXEC="$?"
+    PS1=""
+
+    [[ ${IS_KUBE_PS1_ENABLED} == true && "${TMUX}" == "" ]] && PS1+=$(kube_ps1)
+
+    PS1+="\w ${Green}\$(_git_branch)${Color_Off} ${Blue}gcp:\$(_gcp_project)${Color_Off} "
+    PS1+=$(_last_result)
+    PS1+="\n$ "
 }
 
-gcp_project() {
+
+_git_branch() {
+    GIT_BRANCH_NAME=$(git branch 2>/dev/null | sed -ne "s/^\* \(.*\)$/\1/p")
+    [[ "${GIT_BRANCH_NAME}" != "" ]] && echo "${GIT_BRANCH_NAME}"
+}
+
+_gcp_project() {
+    which gcloud > /dev/null || return
     echo $(cat ~/.config/gcloud/configurations/config_default | grep project | sed -E 's/^\project = (.*)$/\1/')
 }
 
-kps1() {
-    if [[ "${TMUX}" == "" ]]; then
-        PS1="$(kube_ps1) \w \[\033[40;1;32m\]\$(git_branch)\[\033[0m\]\[\e[0;34mgcp:\$(gcp_project)\[\e[0m\] \n\$ "
-    fi
+_last_result() {
+    [[ ${LAST_EXEC:-0} != "0" ]] && echo "❌ "
 }
-
-export IS_KUBE_PS1_ENABLED=false
-k() {
-    if [[ "${IS_KUBE_PS1_ENABLED}" == false ]]; then
-        IS_KUBE_PS1_ENABLED=true
-        kps1
-        source <(stern --completion=bash) # たぶん効いてない
-        source <(kubectl completion bash)
-    fi
-
-    kubectl $@
-}
-
-PS1="\w \[\033[40;1;32m\]\$(git_branch)\[\033[0m\]\[\e[0;34mgcp:\$(gcp_project)\[\e[0m\] \n\$ "
