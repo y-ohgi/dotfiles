@@ -5,7 +5,7 @@ files=(.bashrc .bash_profile .gitignore .gitconfig .gitignore_global .vimrc .spa
 for file in ${files[@]}; do
     echo $file
 
-    ln -sf ~/dotfiles/$file ~/$file
+    ln -sf $PWD/$file ~/$file
 done
 
 source ~/.bash_profile
