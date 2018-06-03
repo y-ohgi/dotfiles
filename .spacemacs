@@ -357,13 +357,15 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (setq js2-strict-missing-semi-warning nil)
   (setq js2-missing-semi-one-line-override nil)
 
+  (require 'indent-guide)
   (setq indent-guide-recursive t)
+  ;; (setq indent-guide-recursive t)
 
-  (add-hook 'yaml-mode-hook
-            '(lambda()
-               (indent-guide-mode t)
-               (indent-guide-show t)
-               ))
+  ;; (add-hook 'yaml-mode-hook
+  ;;           '(lambda()
+  ;;              (indent-guide-mode t)
+  ;;              ))
+  ;;              (indent-guide-show t)
 
   )
 
