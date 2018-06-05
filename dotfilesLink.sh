@@ -1,6 +1,6 @@
 #!/bin/sh
 
-files=(.bashrc .bash_profile .gitignore .gitconfig .gitignore_global .vimrc .spacemacs .tmux.conf .tmux_themes .zshrc)
+files=(.bashrc .bash_profile .gitignore .gitconfig .gitignore_global .vimrc .spacemacs .tmux.conf .zshrc .scripts)
 
 for file in ${files[@]}; do
     echo $file
@@ -8,7 +8,7 @@ for file in ${files[@]}; do
     ln -sf $PWD/$file ~/$file
 done
 
-source ~/.bash_profile
+. ~/.bash_profile
 
 git config --global core.excludesfile ~/.gitignore_global
 

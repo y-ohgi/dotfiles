@@ -1,9 +1,10 @@
 dotfiles
 ---
 
+
 # local
 ```
-$ brew install z direnv bash-completion stern kubectx kube-ps1 reattach-to-user-namespace ghq peco fzf extract_url tmux emacs-plus
+$ brew install z direnv bash-completion stern kubectx kube-ps1 ghq peco fzf extract_url tmux emacs-plus
 $ ./dotfilesLink.sh
 $ ghq get https://github.com/b4b4r07/enhancd
 $ source ~/.ghq/github.com/b4b4r07/enhancd/init.sh

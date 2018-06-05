@@ -66,7 +66,9 @@ values."
                                       helm-ghq
                                       multiple-cursors
                                       smartrep
+                                      pbcopy
                                       )
+
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.

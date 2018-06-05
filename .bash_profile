@@ -17,6 +17,7 @@ fi
 export GOPATH=$HOME/.go
 export PATH=$PATH:$GOPATH/bin #TODO
 export PATH=$PATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/
+export PATH=$PATH:$HOME/.scripts
 
 if [[ "${TMUX}" != "" ]]; then
     export EDITOR=emacsclient
@@ -36,6 +37,7 @@ eval "$(direnv hook bash)"
 alias direnv="EDITOR=vi direnv"
 
 alias emacs="emacs -nw"
+# alias tmux="tmux -u"
 
 mkcd() {
     mkdir -p -- "$1" &&
