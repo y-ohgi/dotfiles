@@ -4,6 +4,7 @@ GHQ_ROOT_PATH=$(ghq root)
 
 . ~/.bashrc
 [[ -s ~/.bash_profile_cmp ]] && . ~/.bash_profile_cmp
+[[ -s ~/.gvm/scripts/gvm ]] && . ~/.gvm/scripts/gvm
 . ${BREW_PREFIX}/etc/profile.d/z.sh
 . ${BREW_PREFIX}/etc/bash_completion
 .  /usr/local/opt/kube-ps1/share/kube-ps1.sh
@@ -13,7 +14,9 @@ if [ -e `ghq list --full-path | grep enhancd | head -n 1`  ]; then
 fi
 
 
-export "PATH=$PATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/"
+export GOPATH=$HOME/.go
+export PATH=$PATH:$GOPATH/bin #TODO
+export PATH=$PATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/
 
 if [[ "${TMUX}" != "" ]]; then
     export EDITOR=emacsclient
@@ -32,6 +35,7 @@ alias pbcopy="nkf -w | __CF_USER_TEXT_ENCODING=0x$(printf %x $(id -u)):0x0800010
 eval "$(direnv hook bash)"
 alias direnv="EDITOR=vi direnv"
 
+alias emacs="emacs -nw"
 
 mkcd() {
     mkdir -p -- "$1" &&
@@ -176,3 +180,5 @@ _gcp_project() {
 _last_result() {
     [[ ${LAST_EXEC:-0} != "0" ]] && echo "❌ "
 }
+
+
