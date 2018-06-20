@@ -36,3 +36,6 @@
 [github]
 	user = y-ohgi
 	email = ohgi.211@gmail.com
+
+[include]
+  path = ~/.gitconfig_local
