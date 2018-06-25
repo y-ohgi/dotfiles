@@ -48,6 +48,12 @@ values."
        ;; better-defaults
        emacs-lisp
        git
+       go
+       (go :variables
+           go-autocomplete t
+           go-use-gometalinter t
+           go-tab-width 2
+           gofmt-command "goimports")
        markdown
        ;; org
        ;; (shell :variables
@@ -74,6 +80,7 @@ values."
                                         multiple-cursors
                                         smartrep
                                         pbcopy
+                                        go-autocomplete
                                         )
 
     ;; A list of packages that cannot be updated.
@@ -368,13 +375,12 @@ before packages are loaded. If you are unsure, you should try in setting them in
 
   (require 'indent-guide)
   (setq indent-guide-recursive t)
-  ;; (setq indent-guide-recursive t)
 
-  ;; (add-hook 'yaml-mode-hook
-  ;;           '(lambda()
-  ;;              (indent-guide-mode t)
-  ;;              ))
-  ;;              (indent-guide-show t)
+  ;; (with-eval-after-load 'go-mode
+  ;;   (require 'go-autocomplete)
+  ;;   (auto-complete-mode 1))
+
+  (ac-config-default)
 
   )
 
@@ -385,10 +391,11 @@ before packages are loaded. If you are unsure, you should try in setting them in
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(global-auto-complete-mode t)
  '(global-undo-tree-mode t)
-  '(package-selected-packages
-     (quote
-       (web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data kotlin-mode insert-shebang fish-mode company-shell vimrc-mode dactyl-mode docker tablist docker-tramp dockerfile-mode nginx-mode pbcopy smartrep yaml-mode web-beautify smeargle orgit mmm-mode markdown-toc markdown-mode magit-gitflow livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc helm-gitignore helm-ghq helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor editorconfig company-tern dash-functional tern company-statistics company coffee-mode auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+ '(package-selected-packages
+   (quote
+    (go-autocomplete go-guru go-eldoc flycheck-gometalinter company-go go-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data kotlin-mode insert-shebang fish-mode company-shell vimrc-mode dactyl-mode docker tablist docker-tramp dockerfile-mode nginx-mode pbcopy smartrep yaml-mode web-beautify smeargle orgit mmm-mode markdown-toc markdown-mode magit-gitflow livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc helm-gitignore helm-ghq helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor editorconfig company-tern dash-functional tern company-statistics company coffee-mode auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
  '(undo-tree-visualizer-diff t)
  '(undo-tree-visualizer-timestamps t))
 (custom-set-faces
