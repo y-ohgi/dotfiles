@@ -59,10 +59,15 @@ cdf() {
 }
 
 db() {
-  docker run -it $@ bash
+  docker run -it $@ which bash
+  if [[ $? == "0" ]]; then
+    docker run -it $@ bash
+  else
+    docker run -it $@ ash
+  fi
 }
 dbv() {
-  docker run -it -v `pwd`:/tmp/shared $@ bash
+  db -v `pwd`:/share $@
 }
 
 
@@ -177,6 +182,7 @@ Blue="\[\033[0;34m\]"
 Color_Off="\[\033[0m\]"
 
 PROMPT_COMMAND="_prompt_command;${PROMPT_COMMAND}"
+#PROMPT_COMMAND="_prompt_command;${PROMPT_COMMAND%*;u*}" #TODO: いい感じの正規表現か使いたい関数をベタ打ちするかする
 _prompt_command() {
   LAST_EXEC="$?"
   PS1=""
