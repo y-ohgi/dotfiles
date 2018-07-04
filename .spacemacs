@@ -42,6 +42,9 @@ values."
        ;; ----------------------------------------------------------------
        markdown
        javascript
+       (javascript :variables
+                   js2-basic-offset 2
+                   js-indent-level 2)
        yaml
        helm
        auto-completion
@@ -81,6 +84,7 @@ values."
                                         smartrep
                                         pbcopy
                                         go-autocomplete
+                                        kotlin-mode
                                         )
 
     ;; A list of packages that cannot be updated.
@@ -375,10 +379,6 @@ before packages are loaded. If you are unsure, you should try in setting them in
 
   (require 'indent-guide)
   (setq indent-guide-recursive t)
-
-  ;; (with-eval-after-load 'go-mode
-  ;;   (require 'go-autocomplete)
-  ;;   (auto-complete-mode 1))
 
   (ac-config-default)
 
