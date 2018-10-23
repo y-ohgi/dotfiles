@@ -4,7 +4,7 @@ dotfiles
 
 # local
 ```
-$ brew install z direnv bash-completion stern kubectx kube-ps1 ghq peco fzf extract_url tmux emacs-plus
+$ brew install z direnv bash-completion stern kubectx kube-ps1 ghq peco fzf extract_url tmux emacs-plus nkf
 $ ./dotfilesLink.sh
 $ ghq get https://github.com/b4b4r07/enhancd
 $ source ~/.ghq/github.com/b4b4r07/enhancd/init.sh
@@ -20,7 +20,7 @@ $ gvm use go1.10.1 --default
 $ xcode-select --install && \
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" && \
     brew tap d12frosted/emacs-plus && \
-    brew install z direnv bash-completion stern kubectx kube-ps1 reattach-to-user-namespace ghq peco fzf extract_url tmux emacs-plus mercurial && \
+    brew install z direnv bash-completion stern kubectx kube-ps1 reattach-to-user-namespace ghq peco fzf extract_url tmux emacs-plus mercurial nkf && \
     brew tap caskroom/fonts && \
     brew cask install font-source-code-pro && \
     git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d && \
