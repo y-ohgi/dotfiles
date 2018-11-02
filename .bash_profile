@@ -1,7 +1,13 @@
+
+. ~/.bashrc
+[[ -s ~/.bash_profile_cmp ]] && . ~/.bash_profile_cmp
+
 # brew --prefix が地味に遅いので変数へ退避
 BREW_PREFIX=$(brew --prefix)
 GHQ_ROOT_PATH=$(ghq root)
 
+export LANG=ja_JP.UTF-8
+export LC_ALL=ja_JP.UTF-8
 
 export PATH=$PATH:$GOPATH/bin:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/:$HOME/.scripts
 
@@ -12,19 +18,15 @@ if [[ "${TMUX}" != "" ]]; then
   export EDITOR=emacsclient
 fi
 
-
-. ~/.bashrc
-[[ -s ~/.bash_profile_cmp ]] && . ~/.bash_profile_cmp
-
 . ${BREW_PREFIX}/etc/profile.d/z.sh
 .  /usr/local/opt/kube-ps1/share/kube-ps1.sh
 
 #XXX: bashの起動が遅いのでコメントアウト。
 # . ${BREW_PREFIX}/etc/bash_completion
 
-if [ -e `ghq list --full-path | grep enhancd | head -n 1`  ]; then
-  . $GHQ_ROOT_PATH/$(ghq list | grep enhancd | head -n 1)/init.sh
-fi
+# if [ -e `ghq list --full-path | grep enhancd | head -n 1`  ]; then
+#   . $GHQ_ROOT_PATH/$(ghq list | grep enhancd | head -n 1)/init.sh
+# fi
 
 
 alias ..='builtin cd ..'
@@ -191,7 +193,8 @@ _prompt_command() {
 
   PS1+="\w "
   PS1+="${Green}\$(_git_branch)${Color_Off} "
-  PS1+="${Blue}gcp:\$(_gcp_project)${Color_Off} "
+  [[ "${_SHOW_GCPPROJECT_FLG}" == "true" ]] && PS1+="${Blue}gcp:\$(_gcp_project)${Color_Off} "
+  # PS1+="${Blue}gcp:\$(_gcp_project)${Color_Off} "
   PS1+="\$(_last_result) "
   PS1+="\n"
   PS1+="$ "
@@ -200,12 +203,19 @@ _prompt_command() {
 
 _git_branch() {
   GIT_BRANCH_NAME=$(git branch 2>/dev/null | sed -ne "s/^\* \(.*\)$/\1/p")
-  [[ "${GIT_BRANCH_NAME}" != "" ]] && echo -n "${GIT_BRANCH_NAME}" && echo ":$(git config user.name)"
+  [[ "${GIT_BRANCH_NAME}" != "" ]] && echo -n "${GIT_BRANCH_NAME}" && echo " :$(git config user.name)"
 }
 
+export _SHOW_GCPPROJECT_FLG=false
 _gcp_project() {
   which gcloud > /dev/null || return
   echo $(cat ~/.config/gcloud/configurations/config_default | grep project | sed -E 's/^\project = (.*)$/\1/')
+}
+_show_gcp_project() {
+  _SHOW_GCPPROJECT_FLG=true
+}
+_hide_gcp_project() {
+  _SHOW_GCPPROJECT_FLG=false
 }
 
 _last_result() {
