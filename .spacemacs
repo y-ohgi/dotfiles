@@ -32,48 +32,58 @@ values."
     ;; List of configuration layers to load.
     dotspacemacs-configuration-layers
     '(
+      csv
       ruby
-       html
-       vimscript
-       nginx
-       ;; ----------------------------------------------------------------
-       ;; Example of useful layers you may want to use right away.
-       ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-       ;; <M-m f e R> (Emacs style) to install them.
-       ;; ----------------------------------------------------------------
-       markdown
-       javascript
-       (javascript :variables
-                   js2-basic-offset 2
-                   js-indent-level 2)
-       yaml
-       helm
-       auto-completion
-       ;; better-defaults
-       emacs-lisp
-       git
-       go
-       (go :variables
-           go-autocomplete t
-           go-use-gometalinter t
-           go-tab-width 2
-           gofmt-command "goimports")
-       markdown
-       ;; org
-       ;; (shell :variables
-       ;;        shell-default-height 30
-       ;;        shell-default-position 'bottom)
-       spell-checking
-       syntax-checking
-       docker
-       shell-scripts
-       (shell-scripts :variables
-         sh-basic-offset 2
-         sh-indentation 2
-         )
-       ;; version-control
-       terraform
+      (ruby :variables
+            ruby-insert-encoding-magic-comment nil
+            )
+      php
+      python
+      (python :variables
+              python-indent-offset 2
        )
+      html
+      vimscript
+      nginx
+      ;; ----------------------------------------------------------------
+      ;; Example of useful layers you may want to use right away.
+      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
+      ;; <M-m f e R> (Emacs style) to install them.
+      ;; ----------------------------------------------------------------
+      markdown
+      javascript
+      (javascript :variables
+                  js2-basic-offset 2
+                  js-indent-level 2)
+      yaml
+      helm
+      auto-completion
+      ;; better-defaults
+      emacs-lisp
+      git
+      go
+      (go :variables
+          go-autocomplete t
+          go-use-gometalinter t
+          go-tab-width 2
+          gofmt-command "goimports")
+      markdown
+      ;; org
+      ;; (shell :variables
+      ;;        shell-default-height 30
+      ;;        shell-default-position 'bottom)
+      spell-checking
+      syntax-checking
+      docker
+      shell-scripts
+      (shell-scripts :variables
+                     sh-basic-offset 2
+                     sh-indentation 2
+                     )
+      ;; version-control
+      scala
+      terraform
+      )
 
     ;; List of additional packages that will be installed without being
     ;; wrapped in a layer. If you need some configuration for these
@@ -398,7 +408,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
  '(global-undo-tree-mode t)
  '(package-selected-packages
    (quote
-    (terraform-mode hcl-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby powerline spinner hydra parent-mode projectile pkg-info epl flx treepy graphql smartparens iedit anzu evil goto-chg undo-tree highlight f s dash bind-map bind-key packed helm avy helm-core async popup go-autocomplete go-guru go-eldoc flycheck-gometalinter company-go go-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data kotlin-mode insert-shebang fish-mode company-shell vimrc-mode dactyl-mode docker tablist docker-tramp dockerfile-mode nginx-mode pbcopy smartrep yaml-mode web-beautify smeargle orgit mmm-mode markdown-toc markdown-mode magit-gitflow livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc helm-gitignore helm-ghq helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor editorconfig company-tern dash-functional tern company-statistics company coffee-mode auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+    (noflet ensime sbt-mode scala-mode enh-ruby-mode csv-mode plantuml-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic go-autocomplete go-guru go-eldoc flycheck-gometalinter company-go go-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data kotlin-mode insert-shebang fish-mode company-shell vimrc-mode dactyl-mode docker tablist docker-tramp dockerfile-mode nginx-mode pbcopy smartrep yaml-mode web-beautify smeargle orgit mmm-mode markdown-toc markdown-mode magit-gitflow livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc helm-gitignore helm-ghq helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor editorconfig company-tern dash-functional tern company-statistics company coffee-mode auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
  '(undo-tree-visualizer-diff t)
  '(undo-tree-visualizer-timestamps t))
 (custom-set-faces

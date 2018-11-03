@@ -86,6 +86,10 @@ k() {
   kubectl $@
 }
 
+export GO_VERSION=1.10.1
+export GOROOT=~/.gvm/gos/go${GO_VERSION}
+export GOPATH=~/.gvm/pkgsets/go${GO_VERSION}/global
+export PATH="$GOPATH:$GOROOT:$PATH"
 export IS_GVM_ENABLED=false # gvm を使うタイミングで読み込む。0.1msぐらいかかる。
 gvm() {
   [ -s  ~/.gvm/scripts/gvm -o "${IS_GVM_ENABLED}" == false ] && IS_GVM_ENABLED=true && . ~/.gvm/scripts/gvm
@@ -193,8 +197,7 @@ _prompt_command() {
 
   PS1+="\w "
   PS1+="${Green}\$(_git_branch)${Color_Off} "
-  [[ "${_SHOW_GCPPROJECT_FLG}" == "true" ]] && PS1+="${Blue}gcp:\$(_gcp_project)${Color_Off} "
-  # PS1+="${Blue}gcp:\$(_gcp_project)${Color_Off} "
+  PS1+="${Blue}\$(_gcp_project)${Color_Off} "
   PS1+="\$(_last_result) "
   PS1+="\n"
   PS1+="$ "
@@ -206,16 +209,9 @@ _git_branch() {
   [[ "${GIT_BRANCH_NAME}" != "" ]] && echo -n "${GIT_BRANCH_NAME}" && echo " :$(git config user.name)"
 }
 
-export _SHOW_GCPPROJECT_FLG=false
 _gcp_project() {
-  which gcloud > /dev/null || return
-  echo $(cat ~/.config/gcloud/configurations/config_default | grep project | sed -E 's/^\project = (.*)$/\1/')
-}
-_show_gcp_project() {
-  _SHOW_GCPPROJECT_FLG=true
-}
-_hide_gcp_project() {
-  _SHOW_GCPPROJECT_FLG=false
+  [[ -e ~/.config/gcloud ]] || return
+  echo "gcp: $(cat ~/.config/gcloud/configurations/config_default | grep project | sed -E 's/^\project = (.*)$/\1/')"
 }
 
 _last_result() {
