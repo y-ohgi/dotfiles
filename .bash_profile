@@ -103,7 +103,9 @@ p() {
   case "$1" in
     # ghq リポジトリ一覧
     ghq)
-      builtin cd $(ghq root)/$(ghq list | fzf) ;;
+      locale repo
+      repo=$(ghq list | fzf) || return
+      builtin cd $(ghq root)/$repo ;;
 
     # ghq 新規リポジトリ作成
     ghq-mkrepo)
