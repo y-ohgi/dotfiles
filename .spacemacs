@@ -395,6 +395,8 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (ac-config-default)
 
   (setq ruby-insert-encoding-magic-comment nil)
+
+  (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
