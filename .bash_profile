@@ -6,12 +6,13 @@
 BREW_PREFIX=$(brew --prefix)
 GHQ_ROOT_PATH=$(ghq root)
 
-export LANG=ja_JP.UTF-8
-export LC_ALL=ja_JP.UTF-8
+# export LANG=ja_JP.UTF-8
+# export LC_ALL=ja_JP.UTF-8
+export LANG=C
+export LC_CTYPE=en_US.UTF-8
 
-export PATH=$PATH:$GOPATH/bin:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/:$HOME/.scripts
+export PATH=$PATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/:$HOME/.scripts
 
-export GOPATH=$HOME/.go
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border --ansi'
 
 if [[ "${TMUX}" != "" ]]; then
@@ -28,6 +29,7 @@ fi
 #   . $GHQ_ROOT_PATH/$(ghq list | grep enhancd | head -n 1)/init.sh
 # fi
 
+alias rm='rmtrash'
 
 alias ..='builtin cd ..'
 
@@ -86,16 +88,17 @@ k() {
   kubectl $@
 }
 
-export GO_VERSION=1.10.1
-export GOROOT=~/.gvm/gos/go${GO_VERSION}
-export GOPATH=~/.gvm/pkgsets/go${GO_VERSION}/global
-export PATH="$GOPATH:$GOROOT:$PATH"
-export IS_GVM_ENABLED=false # gvm を使うタイミングで読み込む。0.1msぐらいかかる。
-gvm() {
-  [ -s  ~/.gvm/scripts/gvm -o "${IS_GVM_ENABLED}" == false ] && IS_GVM_ENABLED=true && . ~/.gvm/scripts/gvm
+# export GO_VERSION=1.10.1
+# export GOPATH=$HOME/.go
+# export GOROOT=~/.gvm/gos/go${GO_VERSION}
+# export GOPATH=~/.gvm/pkgsets/go${GO_VERSION}/global
+export PATH=${HOME}/go/bin/:$PATH
+# export IS_GVM_ENABLED=false # gvm を使うタイミングで読み込む。0.1msぐらいかかる。
+# gvm() {
+#   [ -s  ~/.gvm/scripts/gvm -o "${IS_GVM_ENABLED}" == false ] && IS_GVM_ENABLED=true && . ~/.gvm/scripts/gvm
 
-  gvm $@
-}
+#   gvm $@
+# }
 
 
 #TODO: "/p-scripts" を作成し、その中へ関数毎に格納する。格納したファイル名を元に補完&ファイルを実行
@@ -147,18 +150,27 @@ p() {
 
     gcloud-set-project)
       local project
-      project=$(gcloud projects list --format=json | jq -r 'map(.name) | .[]' | fzf) || return
+      project=$(gcloud projects list --format=json | jq -r 'map(.projectId) | .[]' | fzf) || return
       gcloud config set project ${project} ;;
 
     # kubernetesのpodへコマンドを送り込む
     k-exec-pod)
       local pod
       kubectl get pod | tail -n +2 | awk '{print $1}' | fzf -m | xargs -I{} kubectl exec -it {} ${@:2} ;;
+
+    # AWS CLIのProfileを変更する
+    aws-change-profile)
+      local profile credential
+      profile=$(cat ~/.aws/credentials | sed -e '/^aws_/d' -e 's/^\[\(.*\)\]$/\1/g' -e '/default/d' | fzf) || return
+      # profile=$(cat ~/.aws/credentials | sed -e '/^aws_/d' -e 's/^\[\(.*\)\]$/\1/g' -e '1,1d' | fzf) || return
+      credential=$(cat ~/.aws/credentials | grep -A 2 "\[${profile}\]" | sed -e '1,1d')
+
+
   esac
 }
 _p() {
   local cur=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=( $(compgen -W "ghq ghq-mkrepo git-checkout git-checkout-remote gcloud-set-project k-exec-pod" -- $cur) )
+  COMPREPLY=( $(compgen -W "ghq ghq-mkrepo git-checkout git-checkout-remote gcloud-set-project k-exec-pod aws-change-profile" -- $cur) )
 }
 complete -F _p p
 
@@ -198,8 +210,8 @@ _prompt_command() {
   [[ ${IS_KUBE_PS1_ENABLED} == true && "${TMUX}" == "" ]] && PS1+=$(kube_ps1)
 
   PS1+="\w "
-  PS1+="${Green}\$(_git_branch)${Color_Off} "
   PS1+="${Blue}\$(_gcp_project)${Color_Off} "
+  PS1+="${Green}\$(_git_branch)${Color_Off} "
   PS1+="\$(_last_result) "
   PS1+="\n"
   PS1+="$ "
