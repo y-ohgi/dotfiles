@@ -25,6 +25,7 @@
 
 [core]
 	excludesfile = /Users/ogi-yusuke/.gitignore_global
+	ignorecase = false
 [difftool "sourcetree"]
   cmd = opendiff \"$LOCAL\" \"$REMOTE\"
   path =
@@ -38,8 +39,6 @@
 	user = y-ohgi
 	email = ohgi.211@gmail.com
 
-[include]
-  path = ~/.gitconfig_local
 [user]
-	name = ogi-yusuke
-	email = ogi-yusuke@dmm.com
+	name = y-ohgi
+	email = ohgi.211@gmail.com

@@ -2,7 +2,7 @@
 . ~/.bashrc
 [[ -s ~/.bash_profile_cmp ]] && . ~/.bash_profile_cmp
 
-# brew --prefix が地味に遅いので変数へ退避
+# MEMO: brew --prefix を毎回叩かれると地味に遅いので変数へ退避
 BREW_PREFIX=$(brew --prefix)
 GHQ_ROOT_PATH=$(ghq root)
 
@@ -11,23 +11,18 @@ GHQ_ROOT_PATH=$(ghq root)
 export LANG=C
 export LC_CTYPE=en_US.UTF-8
 
-export PATH=$PATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/:$HOME/.scripts
+export PATH=${HOME}/go/bin/:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/:$HOME/.scripts:$PATH
 
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border --ansi'
+
+export BASH_SILENCE_DEPRECATION_WARNING=1
 
 if [[ "${TMUX}" != "" ]]; then
   export EDITOR=emacsclient
 fi
 
 . ${BREW_PREFIX}/etc/profile.d/z.sh
-.  /usr/local/opt/kube-ps1/share/kube-ps1.sh
-
-#XXX: bashの起動が遅いのでコメントアウト。
-# . ${BREW_PREFIX}/etc/bash_completion
-
-# if [ -e `ghq list --full-path | grep enhancd | head -n 1`  ]; then
-#   . $GHQ_ROOT_PATH/$(ghq list | grep enhancd | head -n 1)/init.sh
-# fi
+. /usr/local/opt/kube-ps1/share/kube-ps1.sh
 
 alias rm='rmtrash'
 
@@ -37,20 +32,18 @@ alias f='open .'
 alias j='z'
 
 alias g='git'
+alias t='terraform'
 alias d='docker'
 alias fig='docker-compose'
 
-alias pbcopy="nkf -w | __CF_USER_TEXT_ENCODING=0x$(printf %x $(id -u)):0x08000100:14 pbcopy"
-
-#XXX: PROMPTコマンドに仕込まれるせいでいちいち重いのでコメントアウト。 `_prompt_command` でどうにかするか別のツールを探す
-# eval "$(direnv hook bash)"
-# alias direnv="EDITOR=vi direnv"
-
 alias emacs="emacs -nw"
 
-mkcd() {
-  mkdir -p -- "$1" &&
-    builtin cd -P -- "$1"
+alias pbcopy="nkf -w | __CF_USER_TEXT_ENCODING=0x$(printf %x $(id -u)):0x08000100:14 pbcopy"
+
+
+# cd
+cdr() {
+  cd $(git rev-parse --show-toplevel)
 }
 
 cdf() {
@@ -62,6 +55,7 @@ cdf() {
   fi
 }
 
+# Docker
 db() {
   docker run -it $@ which bash
   if [[ $? == "0" ]]; then
@@ -74,10 +68,10 @@ dbv() {
   db -v `pwd`:/share $@
 }
 
-
+# K8s
 export IS_KUBE_PS1_ENABLED=false # kube_ps1の有効状態
 k() {
-  # bashの起動速度を上げるため、kubectlを使用する際に有効化させる
+  # MEMO: bashの起動が遅くなるため、使用するタイミングで有効化
   if [[ "${IS_KUBE_PS1_ENABLED}" == false ]]; then
     IS_KUBE_PS1_ENABLED=true
 
@@ -88,20 +82,7 @@ k() {
   kubectl $@
 }
 
-# export GO_VERSION=1.10.1
-# export GOPATH=$HOME/.go
-# export GOROOT=~/.gvm/gos/go${GO_VERSION}
-# export GOPATH=~/.gvm/pkgsets/go${GO_VERSION}/global
-export PATH=${HOME}/go/bin/:$PATH
-# export IS_GVM_ENABLED=false # gvm を使うタイミングで読み込む。0.1msぐらいかかる。
-# gvm() {
-#   [ -s  ~/.gvm/scripts/gvm -o "${IS_GVM_ENABLED}" == false ] && IS_GVM_ENABLED=true && . ~/.gvm/scripts/gvm
-
-#   gvm $@
-# }
-
-
-#TODO: "/p-scripts" を作成し、その中へ関数毎に格納する。格納したファイル名を元に補完&ファイルを実行
+# TODO: "/p-scripts" を作成し、その中へ関数毎に格納する。格納したファイル名を元に補完&ファイルを実行
 p() {
   case "$1" in
     # ghq リポジトリ一覧
@@ -165,37 +146,20 @@ p() {
       # profile=$(cat ~/.aws/credentials | sed -e '/^aws_/d' -e 's/^\[\(.*\)\]$/\1/g' -e '1,1d' | fzf) || return
       credential=$(cat ~/.aws/credentials | grep -A 2 "\[${profile}\]" | sed -e '1,1d')
 
-
   esac
 }
+
 _p() {
   local cur=${COMP_WORDS[COMP_CWORD]}
   COMPREPLY=( $(compgen -W "ghq ghq-mkrepo git-checkout git-checkout-remote gcloud-set-project k-exec-pod aws-change-profile" -- $cur) )
 }
+
 complete -F _p p
 
-
-####################
 # key bind
-peco-select-history() {
-  local tac
-  if which tac > /dev/null; then
-    tac="tac"
-  else
-    tac="tail -r"
-  fi
-  local l=$(\history | awk '{$1="";print}' | eval $tac | peco | cut -d' ' -f4-)
-  READLINE_LINE="${l}"
-  READLINE_POINT=${#l}
-}
-# M-r
-bind -x '"\er": peco-select-history'
-
 # M-h
 bind '"\eh": backward-kill-word'
 
-
-####################
 # Prompt
 Green="\[\033[0;32m\]"
 Blue="\[\033[0;34m\]"
@@ -216,7 +180,6 @@ _prompt_command() {
   PS1+="\n"
   PS1+="$ "
 }
-
 
 _git_branch() {
   GIT_BRANCH_NAME=$(git branch 2>/dev/null | sed -ne "s/^\* \(.*\)$/\1/p")
