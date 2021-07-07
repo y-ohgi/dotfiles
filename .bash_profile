@@ -31,15 +31,19 @@ alias ..='builtin cd ..'
 alias f='open .'
 alias j='z'
 
+alias e='echo'
 alias g='git'
 alias t='terraform'
 alias d='docker'
+alias m='make'
+alias python='/usr/local/bin/python3'
 alias fig='docker-compose'
 
 alias emacs="emacs -nw"
 
 alias pbcopy="nkf -w | __CF_USER_TEXT_ENCODING=0x$(printf %x $(id -u)):0x08000100:14 pbcopy"
 
+alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm alpine/dfimage -sV=1.40"
 
 # cd
 cdr() {
@@ -65,7 +69,10 @@ db() {
   fi
 }
 dbv() {
-  db -v `pwd`:/share $@
+  db -v `pwd`:/share:delegated -w /share $@
+}
+dbvh() {
+  db -v `pwd`:/share:delegated -v $HOME:/root:delegated -w /share -u root $@
 }
 
 # K8s
@@ -159,6 +166,8 @@ complete -F _p p
 # key bind
 # M-h
 bind '"\eh": backward-kill-word'
+# C-j empty line
+bind -x '"\C-j": "echo" '
 
 # Prompt
 Green="\[\033[0;32m\]"
@@ -194,3 +203,4 @@ _gcp_project() {
 _last_result() {
   [[ ${LAST_EXEC:-0} != "0" ]] && echo "❌ "
 }
+

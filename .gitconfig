@@ -6,8 +6,10 @@
   stt = status -uno
 	co = checkout
   cob = checkout -b
-  pom = pull origin master
   pod = pull origin develop
+  pom = "!f() { git pull origin master; git pull origin main; }; f"
+  pomaster = pull origin master
+  pomain = pull origin master
 
 	l = log -n 10 --date=short --pretty=format:'%cd %C(yellow)%h%Creset %C(green)%an %Creset%s  %Creset'
   logf = log --name-status --pretty=format:\"%C(red)%h %C(green)%an %Creset%s %C(yellow)%d%Creset\"
@@ -24,21 +26,16 @@
 	showpr = "!f() { git log --merges --oneline --reverse --ancestry-path $1...master | grep 'Merge pull request #' | head -n 1; }; f"
 
 [core]
-	excludesfile = /Users/ogi-yusuke/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	ignorecase = false
-[difftool "sourcetree"]
-  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-  path =
-[mergetool "sourcetree"]
-  cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-  trustExitCode = true
-[credential]
-  helper = !aws codecommit credential-helper $@
-  UseHttpPath = true
-[github]
-	user = y-ohgi
-	email = ohgi.211@gmail.com
+
+# [credential]
+#   helper = !aws codecommit credential-helper $@
+#   UseHttpPath = true
 
 [user]
 	name = y-ohgi
+	email = ohgi.211@gmail.com
+[github]
+	user = y-ohgi
 	email = ohgi.211@gmail.com

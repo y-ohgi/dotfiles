@@ -1,4 +1,4 @@
-### macOS.gitignore
+# macOS.gitignore
 *.DS_Store
 .AppleDouble
 .LSOverride
@@ -86,3 +86,12 @@ flycheck_*.el
 
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
+
+# intellij idea
+.idea/
+*/.idea/
+*/.DS_Store
+
+# vsc
+.vscode/
+*/.vscode/
