@@ -11,7 +11,8 @@ GHQ_ROOT_PATH=$(ghq root)
 export LANG=C
 export LC_CTYPE=en_US.UTF-8
 
-export PATH=${HOME}/go/bin/:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/:$HOME/.scripts:$PATH
+# export PATH=${HOME}/go/bin/:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/:$HOME/.scripts:$PATH
+export PATH=${HOME}/go/bin/:$HOME/.scripts:$PATH
 
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border --ansi'
 
@@ -206,4 +207,3 @@ _gcp_project() {
 _last_result() {
   [[ ${LAST_EXEC:-0} != "0" ]] && echo "❌ "
 }
-
