@@ -4,99 +4,89 @@ bindkey -e
 # historyの設定
 HISTFILE=~/.zsh_history
 
-# カレントディレクトリの表示
-PS1="%{$fg[cyan]%}[${USER}@${HOST%%.*} %1~]%(!.#.$)${reset_color} "
+alias g='git'
+alias d='docker'
+alias m='make'
+alias j='z'
+alias t='terraform'
 
+alias rm='rmtrash'
+alias f='open .'
 
-# 単語の区切り文字を指定する
-autoload -Uz select-word-style
-select-word-style default
-# ここで指定した文字は単語区切りとみなされる
-# / も区切りと扱うので、^W でディレクトリ１つ分を削除できる
-zstyle ':zle:*' word-chars " /=;@:{},|"
-zstyle ':zle:*' word-style unspecified
+alias fig='docker compose'
 
-########################################
-# 補完
-fpath=(/usr/local/share/zsh-completions $fpath)
-# 補完機能を有効にする
-autoload -Uz compinit
-compinit -u
+alias emacs="emacs -nw"
 
-# 補完で小文字でも大文字にマッチさせる
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+alias pbcopy="nkf -w | __CF_USER_TEXT_ENCODING=0x$(printf %x $(id -u)):0x08000100:14 pbcopy"
 
-# ../ の後は今いるディレクトリを補完しない
-zstyle ':completion:*' ignore-parents parent pwd ..
+bindkey '^[h' backward-kill-word
 
-# sudo の後ろでコマンド名を補完する
-zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
-                   /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
-
-# ps コマンドのプロセス名補完
-zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
-
-
-########################################
-# vcs_info
-autoload -Uz vcs_info
-autoload -Uz add-zsh-hook
-
-zstyle ':vcs_info:*' formats '%F{green}(%s)-[%b]%f'
-zstyle ':vcs_info:*' actionformats '%F{red}(%s)-[%b|%a]%f'
-
-function _update_vcs_info_msg() {
-    LANG=en_US.UTF-8 vcs_info
-    RPROMPT="${vcs_info_msg_0_}"
+cdf() {
+  target=`osascript -e 'tell application "Finder" to if (count of Finder windows) > 0 then get POSIX path of (target of front Finder window as text)'`
+  if [ "$target" != "" ]; then
+    cd "$target"; pwd
+  else
+    echo 'No Finder window found' >&2
+  fi
 }
-add-zsh-hook precmd _update_vcs_info_msg
 
+# Docker
+db() {
+  docker run -it $@ which bash
+  if [[ $? == "0" ]]; then
+    docker run -it $@ bash
+  else
+    docker run -it $@ ash
+  fi
+}
+dbv() {
+  db -v `pwd`:/share:delegated -w /share $@
+}
+dbvh() {
+  db -v `pwd`:/share:delegated -v $HOME:/root:delegated -w /share -u root $@
+}
 
-########################################
-# オプション
-# 日本語ファイル名を表示可能にする
-setopt print_eight_bit
+# Custom Commands
+p() {
+  case "$1" in
+    ghq)
+      local repo
+      repo=$(ghq list | fzf) || return
+      cd "$(ghq root)/$repo" ;;
+  esac
+}
 
-# beep を無効にする
-setopt no_beep
+# PROMPT
+setopt PROMPT_SUBST
 
-# フローコントロールを無効にする
-setopt no_flow_control
+GREEN="%F{green}"
+BLUE="%F{blue}"
+YELLOW="%F{yellow}"
+RESET="%f"
 
-# # Ctrl+Dでzshを終了しない
-# setopt ignore_eof
+# Gitブランチを取得する関数
+git_branch() {
+    branch=$(git branch 2>/dev/null | sed -n '/^\*/s/^\* //p')
+    if [ ! -z $branch ]; then
+        echo "($branch)"
+    fi
+}
 
-# '#' 以降をコメントとして扱う
-setopt interactive_comments
+git_branch() {
+    branch=$(git branch 2>/dev/null | sed -n '/^\*/s/^\* //p')
+    if [ ! -z $branch ]; then
+        echo "($branch) "
+    fi
+}
 
-# ディレクトリ名だけでcdする
-setopt auto_cd
+prompt_symbol() {
+    if [ $UID -eq 0 ]; then
+        echo "#"
+    else
+        echo "$"
+    fi
+}
 
-# cd したら自動的にpushdする
-setopt auto_pushd
-# 重複したディレクトリを追加しない
-setopt pushd_ignore_dups
+PROMPT='%F{cyan}%~%f %F{green}$(git_branch)%f
+$(prompt_symbol) '
 
-# 同時に起動したzshの間でヒストリを共有する
-setopt share_history
-
-# 同じコマンドをヒストリに残さない
-setopt hist_ignore_all_dups
-
-# スペースから始まるコマンド行はヒストリに残さない
-setopt hist_ignore_space
-
-# ヒストリに保存するときに余分なスペースを削除する
-setopt hist_reduce_blanks
-
-# 高機能なワイルドカード展開を使用する
-setopt extended_glob
-
-########################################
-# キーバインド
-
-# ^R で履歴検索をするときに * でワイルドカードを使用出来るようにする
-bindkey '^R' history-incremental-pattern-search-backward
-
-
-source ~/.bash_profile
