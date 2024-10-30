@@ -13,6 +13,7 @@ alias d='docker'
 alias m='make'
 alias j='z'
 alias t='terraform'
+alias c='cursor'
 
 alias rm='trash'
 alias f='open .'
@@ -69,8 +70,28 @@ p() {
       local repo
       repo=$(ghq list | fzf) || return
       cd "$(ghq root)/$repo" ;;
+
+    gcloud-set-project)
+      local project
+      project=$(gcloud projects list --format=json | jq -r 'map(.projectId) | .[]' | fzf) || return
+      gcloud config set project ${project} ;;
   esac
 }
+
+_p() {
+  local -a commands
+  commands=(
+    'ghq:description for ghq'
+    'gcloud-set-project:description for gcloud-set-project'
+    'k-exec-pod:description for k-exec-pod'
+    'aws-change-profile:description for aws-change-profile'
+  )
+
+  _describe 'command' commands
+}
+
+autoload -Uz compinit && compinit
+compdef _p p
 
 # PROMPT
 setopt PROMPT_SUBST
@@ -105,8 +126,3 @@ prompt_symbol() {
 
 PROMPT='%F{cyan}%~%f %F{green}$(git_branch)%f
 $(prompt_symbol) '
-
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
