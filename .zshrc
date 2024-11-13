@@ -22,10 +22,11 @@ alias fig='docker compose'
 
 alias emacs="emacs -nw"
 
-alias pbcopy="nkf -w | __CF_USER_TEXT_ENCODING=0x$(printf %x $(id -u)):0x08000100:14 pbcopy"
+# alias pbcopy="nkf -w | __CF_USER_TEXT_ENCODING=0x$(printf %x $(id -u)):0x08000100:14 pbcopy"
 
 bindkey '^[h' backward-kill-word
 
+eval "$(mise activate zsh)"
 
 cursor() {
   open -a "/Applications/Cursor.app" "$@"
