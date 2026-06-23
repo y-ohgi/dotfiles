@@ -4,6 +4,11 @@ bindkey -e
 # historyの設定
 HISTFILE=~/.zsh_history
 
+# Work configs
+if [ -f "$HOME/.zsh_work" ]; then
+  . $HOME/.zsh_work
+fi
+
 export CLICOLOR=1
 
 alias ll='ls -lat'
