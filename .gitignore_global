@@ -95,3 +95,5 @@ flycheck_*.el
 # vsc
 .vscode/
 */.vscode/
+
+.zsh_work
