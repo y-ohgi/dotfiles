@@ -1,3 +1,6 @@
+# for work
+.zsh_work
+
 # macOS.gitignore
 *.DS_Store
 .AppleDouble
@@ -24,8 +27,6 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
-
-
 
 ### Emacs.gitignore
 # -*- mode: gitignore; -*-
@@ -70,8 +71,6 @@ flycheck_*.el
 # directory configuration
 .dir-locals.el
 
-
-
 ### Linux.gitignore
 *~
 
@@ -95,5 +94,3 @@ flycheck_*.el
 # vsc
 .vscode/
 */.vscode/
-
-.zsh_work
