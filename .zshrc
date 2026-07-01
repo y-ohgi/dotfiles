@@ -9,10 +9,12 @@ fi
 # historyの設定
 HISTFILE=~/.zsh_history
 
-# Work configs
-if [ -f "$HOME/.zsh_work" ]; then
-  . $HOME/.zsh_work
-fi
+# ref: https://github.com/agkozak/zsh-z
+source /opt/zsh-z/zsh-z.plugin.zsh
+
+eval "$(mise activate zsh)"
+
+export PATH="$PATH:$HOME/go/bin:/Users/y-ohgi/.local/bin"
 
 export CLICOLOR=1
 
@@ -34,9 +36,22 @@ alias emacs="emacs -nw"
 
 # alias pbcopy="nkf -w | __CF_USER_TEXT_ENCODING=0x$(printf %x $(id -u)):0x08000100:14 pbcopy"
 
+# === keybinds
 bindkey '^[h' backward-kill-word
 
-eval "$(mise activate zsh)"
+_bindkey_blank() {
+  echo "\n\n"
+  zle reset-prompt
+}
+zle -N _bindkey_blank
+bindkey '^J' _bindkey_blank
+
+pipi() {
+  python -m venv .venv
+  source .venv/bin/activate
+
+  pip install -r requirements.txt
+}
 
 cursor() {
   open -a "/Applications/Cursor.app" "$@"
@@ -60,11 +75,11 @@ cdf() {
 alias dbx='docker buildx build --load'
 
 db() {
-  docker run -it $@ which bash
+  docker run -it --rm $@ which bash
   if [[ $? == "0" ]]; then
-    docker run -it $@ bash
+    docker run -it --rm $@ bash
   else
-    docker run -it $@ ash
+    docker run -it --rm $@ ash
   fi
 }
 dbv() {
@@ -82,10 +97,27 @@ p() {
       repo=$(ghq list | fzf) || return
       cd "$(ghq root)/$repo" ;;
 
+    github-repo-create)
+      gh repo create ;;
+
     gcloud-set-project)
       local project
       project=$(gcloud projects list --format=json | jq -r 'map(.projectId) | .[]' | fzf) || return
       gcloud config set project ${project} ;;
+
+    aws-sso-login)
+     local profile
+     profile=$(aws configure list-profiles | fzf) || return
+     aws sso login --profile ${profile} ;;
+
+    claude-mcp-add-serena)
+      claude mcp add serena -- uvx --from git+https://github.com/oraios/serena serena-mcp-server --context ide-assistant --project $(pwd) ;;
+
+    env)
+      set -a
+      source .env
+      if [ -f ".envrc" ]; then source .envrc; fi
+      set +a ;;
   esac
 }
 
@@ -94,8 +126,12 @@ _p() {
   commands=(
     'ghq:description for ghq'
     'gcloud-set-project:description for gcloud-set-project'
-    'k-exec-pod:description for k-exec-pod'
-    'aws-change-profile:description for aws-change-profile'
+    'aws-sso-login:description for aws-sso-login'
+    'claude-mcp-add-serena:description for claude-mcp-add-serena'
+    'env:description for env'
+    'github-repo-create:description for github-repo-create'
+    # 'k-exec-pod:description for k-exec-pod'
+    # 'aws-change-profile:description for aws-change-profile'
   )
 
   _describe 'command' commands
@@ -116,14 +152,7 @@ RESET="%f"
 git_branch() {
     branch=$(git branch 2>/dev/null | sed -n '/^\*/s/^\* //p')
     if [ ! -z $branch ]; then
-        echo "($branch)"
-    fi
-}
-
-git_branch() {
-    branch=$(git branch 2>/dev/null | sed -n '/^\*/s/^\* //p')
-    if [ ! -z $branch ]; then
-        echo "($branch) "
+        echo "$branch"
     fi
 }
 
@@ -135,5 +164,15 @@ prompt_symbol() {
     fi
 }
 
-PROMPT='%F{cyan}%~%f %F{green}$(git_branch)%f
+PROMPT='%F{cyan}%~%f %F{green}$(git_branch)%f %(?,0,%F{red}%?%f)
 $(prompt_symbol) '
+
+# Work configs
+if [ -f "$HOME/.zsh_work" ]; then
+  . $HOME/.zsh_work
+fi
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+
+# Browser-Use
+export PATH="/Users/y-ohgi/.browser-use-env/bin:/Users/y-ohgi/.local/bin:$PATH"

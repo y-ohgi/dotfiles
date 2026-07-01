@@ -14,3 +14,5 @@ export LESSCHARSET=utf-8
 export LANG=C.UTF-8
 export LC_ALL=C.UTF-8
 
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path bash)"

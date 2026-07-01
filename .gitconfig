@@ -2,42 +2,63 @@
   #短縮
   b = branch
   c = commit -am
+  f = fetch origin
+  s = switch
   st = status
   stt = status -uno
-	co = checkout
+  co = checkout
   cob = checkout -b
   pod = pull origin develop
-  pom = "!f() { git pull origin master; git pull origin main; }; f"
-  pomaster = pull origin master
-  pomain = pull origin master
+  a = commit --allow-empty -m
 
-	l = log -n 10 --date=short --pretty=format:'%cd %C(yellow)%h%Creset %C(green)%an %Creset%s  %Creset'
+  #カレントブランチをpushする
+  p = !git push origin `git rev-parse --abbrev-ref HEAD`
+
+  l = log -n 10 --date=short --pretty=format:'%cd %C(yellow)%h%Creset %C(green)%an %Creset%s  %Creset'
   logf = log --name-status --pretty=format:\"%C(red)%h %C(green)%an %Creset%s %C(yellow)%d%Creset\"
-	tree = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
- 	graph = log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'
+  tree = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
+  graph = log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'
   gr = log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'
 
   #行ごとの差分じゃなくて，単語レベルでの差分を色付きで表示する
   difff = diff --word-diff
   wdiff = diff --word-diff=plain
 
-  #カレントブランチをpushする
-  p = !git push origin `git rev-parse --abbrev-ref HEAD`
-	showpr = "!f() { git log --merges --oneline --reverse --ancestry-path $1...master | grep 'Merge pull request #' | head -n 1; }; f"
+  # リモートブランチをfetchしてswitchする
+  fs = "!f() { git fetch origin \"$1\" && git switch \"$1\"; }; f"
+
+  # rebase
+  fr = "!f() { git branch $(git rev-parse --abbrev-ref HEAD)-backup && git fetch origin main && git rebase origin/main } "
+
+  # originのcurrent branchをpull
+  poc = "!git pull origin $(git rev-parse --abbrev-ref HEAD)"
+
+  # masterもしくはmainブランチをpullする
+  pom = "!f() { git pull origin master; git pull origin main; }; f"
+
+  showpr = "!f() { git log --merges --oneline --reverse --ancestry-path $1...master | grep 'Merge pull request #' | head -n 1; }; f"
+
 
 [core]
-	excludesfile = /Users/yusuke.ogi/.gitignore_global
-	ignorecase = false
+  excludesfile = ~/.gitignore_global
+  ignorecase = false
 
 # [credential]
 #   helper = !aws codecommit credential-helper $@
 #   UseHttpPath = true
 
 [user]
-	name = y-ohgi
-	email = ohgi.211@gmail.com
+  name = y-ohgi
+  email = ohgi.211@gmail.com
 [github]
-	user = y-ohgi
-	email = ohgi.211@gmail.com
+  user = y-ohgi
+  email = ohgi.211@gmail.com
 [init]
-	defaultBranch = main
+  defaultBranch = main
+[filter "lfs"]
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+[url "ssh://git@github.com"]
+  insteadOf = https://github.com

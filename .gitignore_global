@@ -86,6 +86,10 @@ flycheck_*.el
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
 
+# netrc
+.netrc
+.net
+
 # intellij idea
 .idea/
 */.idea/
@@ -94,3 +98,20 @@ flycheck_*.el
 # vsc
 .vscode/
 */.vscode/
+
+# Runtime
+## node
+.npmrc
+
+# Terraform
+.terraform
+terraform.tfstate
+terraform.tfstate.backup
+
+# env
+.env
+
+tmp/
+
+.claude/
+.serena
