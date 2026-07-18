@@ -115,3 +115,5 @@ tmp/
 
 .claude/
 .serena
+
+.mise.toml

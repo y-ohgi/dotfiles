@@ -1,1 +1,3 @@
 macos-option-as-alt = true
+command = /bin/zsh -l -c "tmux new-session -A -s cmux_default"
+
