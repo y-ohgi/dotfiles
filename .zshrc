@@ -1,11 +1,6 @@
 # emacs 風キーバインドにする
 bindkey -e
 
-# cmux起動時 かつ tmux未実行の場合のみ、自動でアタッチ/作成
-if [ -z "$TMUX" ] && [ -n "$CMUX_VERSION" ]; then
-    tmux attach-session -t default || tmux new-session -s default
-fi
-
 # historyの設定
 HISTFILE=~/.zsh_history
 
