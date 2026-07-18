@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 # files=(.bashrc .bash_profile .gitignore .gitconfig .gitignore_global .vimrc .spacemacs .tmux.conf .zshrc .scripts)
 files=(.gitconfig .gitignore_global .vimrc .spacemacs .tmux.conf .zshrc .config/ghostty/config)
