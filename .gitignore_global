@@ -113,7 +113,7 @@ terraform.tfstate.backup
 
 tmp/
 
-.claude/
 .serena
 
 .mise.toml
+**/.claude/settings.local.json
