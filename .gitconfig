@@ -40,7 +40,7 @@
 
 
 [core]
-  excludesfile = ~/.gitignore_global
+	excludesfile = /Users/y-ohgi/.gitignore_global
   ignorecase = false
 
 # [credential]
